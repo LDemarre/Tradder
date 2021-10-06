@@ -1,16 +1,65 @@
 /* Your app custom styles here */
 #bIndex {
-  background-color: #43a047;
+  background-color: #dddd95;
 }
 
 #preNext{
+  display: inline-block;
+  border: none;
   background-color: #1b5e20;
+  color: #FFFFFF;
   padding: 0.5rem 2rem;
   border-radius: 1rem;
+  box-shadow: 0 5px #999;
+  font-size: 28px;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+
+#preNext span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#preNext span:after {
+  content: '\00bb';  /* Entidades CSS. Para usar entidades HTML, use &#8594;*/
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
 }
 
 #preNext:hover {
-  background-color: red;
+  background-color: #3e8e41;
+}
+
+#preNext:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(5px);
+}
+
+#preNext:hover span {
+  padding-right: 25px;
+}
+
+#preNext:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#priScreen {
+  align-items: center;
+  justify-content: center;
+}
+
+#priInfo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1b5e20;
 }
 
 /* poppins-regular - latin */
