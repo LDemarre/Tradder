@@ -47,5 +47,9 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
 })
 
 $$('#preNext').click(function () {
-  $$('#slider').css('transform', 'translate3d(-1038px, 0px, 0px)');
+  var width = $$('.swiper-slide').width() + 50;
+  width -= width * 2;
+
+  $$('#slider').css('transform', 'translate3d(' + width + 'px, 0px, 0px)');
+  $$('#slider').css('transition', '.5s');
 });
