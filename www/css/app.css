@@ -1,4 +1,18 @@
 /* Your app custom styles here */
+#bIndex {
+  background-color: #43a047;
+}
+
+#preNext{
+  background-color: #1b5e20;
+  padding: 0.5rem 2rem;
+  border-radius: 1rem;
+}
+
+#preNext:hover {
+  background-color: red;
+}
+
 /* poppins-regular - latin */
 @font-face {
   font-family: 'Poppins';
@@ -83,5 +97,7 @@
 * {
 	font-family: 'Poppins', Arial, sans-serif;
 }
+
+
 
 
