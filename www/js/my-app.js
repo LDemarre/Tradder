@@ -1,4 +1,3 @@
-
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
 
@@ -17,6 +16,7 @@ var app = new Framework7({
   routes: [
     { path: '/indexTwo/', url: 'indexTwo.html', },
     { path: '/about/', url: 'about.html', },
+    { path: '/registro/', url: 'registro.html', },
   ]
   // ... other parameters
 });
@@ -38,4 +38,10 @@ $$(document).on('page:init', function (e) {
 $$(document).on('page:init', '.page[data-name="about"]', function (e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
+  alert('hola');
+})
+
+$$(document).on('pageInit', '.page[data-name="registro"]', function (e) {
+  console.log(e);
+  alert('hola');
 })
