@@ -4,7 +4,7 @@
     <div class="navbar">
         <div class="navbar-bg"></div>
         <div class="navbar-inner">
-            <div class="title">Form To Data</div>
+            <div class="title">Formulario de ingreso</div>
         </div>
     </div>
 
@@ -19,57 +19,90 @@
 
     <div class="page-content">
         <form class="list" id="my-form">
-            <ul>
-                <li>
-                    <div class="item-content item-input">
-                        <div class="item-inner">
-                            <div class="item-title item-label">Name</div>
-                            <div class="item-input-wrap">
-                                <input type="text" name="name" placeholder="Your name" />
+            <div class="list inline-labels no-hairlines-md">
+                <ul>
+                    <div class="display-flex">
+                        <li class="item-content item-input">
+                            <div class="item-media">
+                                <i class="icon demo-list-icon"></i>
                             </div>
-                        </div>
+                            <div class="item-inner">
+                                <div class="item-title item-label">Nombre completo</div>
+                                <div class="item-input-wrap">
+                                    <input type="text" name="Nombre" placeholder="Tu nombre completo" />
+                                    <span class="input-clear-button"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item-content item-input">
+                            <div class="item-media">
+                                <i class="icon demo-list-icon"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title item-label">Contraseña</div>
+                                <div class="item-input-wrap">
+                                    <input type="password" name="Contraseña" placeholder="Tu contraseña" />
+                                    <span class="input-clear-button"></span>
+                                </div>
+                            </div>
+                        </li>
                     </div>
-                </li>
-                <li>
-                    <div class="item-content item-input">
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon demo-list-icon"></i>
+                        </div>
                         <div class="item-inner">
                             <div class="item-title item-label">E-mail</div>
                             <div class="item-input-wrap">
-                                <input type="email" name="email" placeholder="E-mail" />
+                                <input type="email" name="E-mail" placeholder="Tu E-mail" />
+                                <span class="input-clear-button"></span>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-content item-input">
+                    </li>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon demo-list-icon"></i>
+                        </div>
                         <div class="item-inner">
-                            <div class="item-title item-label">Gender</div>
+                            <div class="item-title item-label">Teléfono</div>
                             <div class="item-input-wrap">
-                                <select name="gender">
-                                    <option value="male" selected="selected">Male</option>
-                                    <option value="female">Female</option>
+                                <input type="tel" name="Tel" placeholder="Tu número de teléfono" />
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon demo-list-icon"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title item-label">Género</div>
+                            <div class="item-input-wrap input-dropdown-wrap">
+                                <select name="Género" placeholder="Elige una opción...">
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="item-content">
+                    </li>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon demo-list-icon"></i>
+                        </div>
                         <div class="item-inner">
-                            <div class="item-title">Toggle</div>
-                            <div class="item-after">
-                                <label class="toggle toggle-init">
-                                    <input type="checkbox" name="toggle" value="yes" /><i class="toggle-icon"></i>
-                                </label>
+                            <div class="item-title item-label">Fecha de nacimiento</div>
+                            <div class="item-input-wrap">
+                                <input type="date" value="2014-04-30" name="Nacimiento"
+                                    placeholder="Elige una opción..." />
                             </div>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </form>
         <div class="block block-strong row">
-            <div class="col"><a class="button button-fill convert-form-to-data" href="#">Get Data</a></div>
-            <div class="col"><a class="button button-fill fill-form-from-data" href="#">Fill Form</a></div>
+            <div class="col"><a class="button button-fill convert-form-to-data" href="#">Ingresar</a>
+            </div>
         </div>
     </div>
 </div>

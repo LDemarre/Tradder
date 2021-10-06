@@ -14,7 +14,6 @@ var app = new Framework7({
   },
   // Add default routes
   routes: [
-    { path: '/indexTwo/', url: 'indexTwo.html', },
     { path: '/about/', url: 'about.html', },
     { path: '/registro/', url: 'registro.html', },
   ]
@@ -38,10 +37,15 @@ $$(document).on('page:init', function (e) {
 $$(document).on('page:init', '.page[data-name="about"]', function (e) {
   // Do something here when page with data-name="about" attribute loaded and initialized
   console.log(e);
-  alert('hola');
 })
 
-$$(document).on('pageInit', '.page[data-name="registro"]', function (e) {
-  console.log(e);
-  alert('hola');
+$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
+  $$('.convert-form-to-data').on('click', function () {
+    var formData = app.form.convertToData('#my-form');
+    alert(JSON.stringify(formData));
+  });
 })
+
+$$('#preNext').click(function () {
+  $$('#slider').css('transform', 'translate3d(-1038px, 0px, 0px)');
+});
