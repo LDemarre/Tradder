@@ -21,32 +21,30 @@
         <form class="list" id="my-form">
             <div class="list inline-labels no-hairlines-md">
                 <ul>
-                    <div class="display-flex">
-                        <li class="item-content item-input">
-                            <div class="item-media">
-                                <i class="icon demo-list-icon"></i>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon demo-list-icon"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title item-label">Nombre completo</div>
+                            <div class="item-input-wrap">
+                                <input type="text" id="name" name="Nombre" placeholder="Tu nombre completo" />
+                                <span class="input-clear-button"></span>
                             </div>
-                            <div class="item-inner">
-                                <div class="item-title item-label">Nombre completo</div>
-                                <div class="item-input-wrap">
-                                    <input type="text" name="Nombre" placeholder="Tu nombre completo" />
-                                    <span class="input-clear-button"></span>
-                                </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input">
+                        <div class="item-media">
+                            <i class="icon demo-list-icon"></i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title item-label">Contraseña</div>
+                            <div class="item-input-wrap">
+                                <input type="password" id="password" name="Contraseña" placeholder="Tu contraseña" />
+                                <span class="input-clear-button"></span>
                             </div>
-                        </li>
-                        <li class="item-content item-input">
-                            <div class="item-media">
-                                <i class="icon demo-list-icon"></i>
-                            </div>
-                            <div class="item-inner">
-                                <div class="item-title item-label">Contraseña</div>
-                                <div class="item-input-wrap">
-                                    <input type="password" name="Contraseña" placeholder="Tu contraseña" />
-                                    <span class="input-clear-button"></span>
-                                </div>
-                            </div>
-                        </li>
-                    </div>
+                        </div>
+                    </li>
                     <li class="item-content item-input">
                         <div class="item-media">
                             <i class="icon demo-list-icon"></i>
@@ -54,7 +52,7 @@
                         <div class="item-inner">
                             <div class="item-title item-label">E-mail</div>
                             <div class="item-input-wrap">
-                                <input type="email" name="E-mail" placeholder="Tu E-mail" />
+                                <input type="email" id="email" name="E-mail" placeholder="Tu E-mail" />
                                 <span class="input-clear-button"></span>
                             </div>
                         </div>
@@ -66,7 +64,7 @@
                         <div class="item-inner">
                             <div class="item-title item-label">Teléfono</div>
                             <div class="item-input-wrap">
-                                <input type="tel" name="Tel" placeholder="Tu número de teléfono" />
+                                <input type="tel" id="tel" name="Tel" placeholder="Tu número de teléfono" />
                                 <span class="input-clear-button"></span>
                             </div>
                         </div>
@@ -78,7 +76,7 @@
                         <div class="item-inner">
                             <div class="item-title item-label">Género</div>
                             <div class="item-input-wrap input-dropdown-wrap">
-                                <select name="Género" placeholder="Elige una opción...">
+                                <select name="Género" id="gender" placeholder="Elige una opción...">
                                     <option value="Masculino">Masculino</option>
                                     <option value="Femenino">Femenino</option>
                                 </select>
@@ -92,7 +90,7 @@
                         <div class="item-inner">
                             <div class="item-title item-label">Fecha de nacimiento</div>
                             <div class="item-input-wrap">
-                                <input type="date" value="2014-04-30" name="Nacimiento"
+                                <input type="date" id="date" value="2014-04-30" name="Nacimiento"
                                     placeholder="Elige una opción..." />
                             </div>
                         </div>
