@@ -63,49 +63,78 @@ $$(document).on('page:init', '.page[data-name="about"]', function (e) {
   console.log(e);
 })
 
-$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
-  $$('.convert-form-to-data').on('click', function () {
-    var name = $$('#name').val();
-    var email = $$('#email').val();
-    var password = $$('#password').val();
-    var tel = $$('#tel').val();
-    var gender = $$('#gender').val();
-    var date = $$('#date').val();
+var db = firebase.firestore();
+var colUser = db.collection("Users");
 
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in
-        var user = userCredential.user;
-        // ...
-        console.log(user);
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ..
-        console.log(error.code);
-        console.log(error.message);
-      });
+//Función de registro
+function register() {
+  var name = $$('#name').val();
+  var email = $$('#email').val();
+  var password = $$('#password').val();
+  var tel = $$('#tel').val();
+  var gender = $$('#gender').val();
+  var date = $$('#date').val();
 
-  });
-})
-
-$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
-  var email = $$('#Lemail').val();
-  var password = $$('#Lpassword').val();
-
-  console.log(email, password);
-
-  firebase.auth().signInWithEmailAndPassword(email, password)
+  firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // Signed in
       var user = userCredential.user;
+      console.log(user);
       // ...
+
+      passOfCollection = email;
+
+      data = {
+        name: name,
+        rol: "User"
+      }
+
+      console.log('hola');
+
+      colUser.doc(passOfCollection).set(data)
+        .then(() => {
+          console.log("Document successfully written!");
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+        });
     })
     .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
+      // ..
+      console.log(error.code);
+      console.log(error.message);
     });
+}
+
+// function login() {
+//   var email = $$('#Lemail').val();
+//   var password = $$('#Lpassword').val();
+
+//   console.log(email, password);
+
+//   firebase.auth().signInWithEmailAndPassword(email, password)
+//     .then((userCredential) => {
+//       // Signed in
+//       // ...
+//       var user = userCredential.user;
+
+//       passOfCollection = email;
+//       var docRef = colUser.doc(passOfCollection);
+
+//       docRef.get().then((doc) => {
+//         if (doc.exits)
+//       })
+//     })
+//     .catch((error) => {
+//       var errorCode = error.code;
+//       var errorMessage = error.message;
+//     });
+// }
+
+$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
+  $$('.convert-form-to-data').on('click', register);
 })
 
 $$('#preNext').click(function () {
