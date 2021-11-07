@@ -1,4 +1,8 @@
 /* Your app custom styles here */
+#imgInit img {
+  width: 50%;
+}
+
 #bIndex {
   background-color: #dddd95;
 }
@@ -11,7 +15,7 @@
   padding: 0.5rem 2rem;
   border-radius: 1rem;
   box-shadow: 0 5px #999;
-  font-size: 28px;
+  font-size: 30px;
   transition: all 0.25s;
   cursor: pointer;
 }
@@ -24,7 +28,7 @@
 }
 
 #preNext span:after {
-  content: '\00bb';  /* Entidades CSS. Para usar entidades HTML, use &#8594;*/
+  content: '\00bb'; 
   position: absolute;
   opacity: 0;
   top: 0;
@@ -55,39 +59,6 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: #1b5e20;
-}
-
-.demo-swiper .swiper-slide {
-  font-size: 25px;
-  font-weight: 300;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff;
-  color: #000;
-}
-
-.demo-swiper .swiper-slide {
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  background: #dddd95;
-}
-
-.demo-swiper {
-  font-size: 18px;
-  height: 100%;
-}
-
-.demo-swiper.demo-swiper-auto .swiper-slide {
-  width: 85%;
-}
-
-.demo-swiper.demo-swiper-auto .swiper-slide:nth-child(2n) {
-  width: 70%;
-}
-
-.demo-swiper.demo-swiper-auto .swiper-slide:nth-child(3n) {
-  width: 30%;
 }
 
 /* poppins-regular - latin */

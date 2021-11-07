@@ -16,53 +16,14 @@ var app = new Framework7({
   routes: [
     { path: '/about/', url: 'about.html', },
     { path: '/registro/', url: 'registro.html', },
+    { path: '/ingreso/', url: 'ingreso.html' },
   ]
   // ... other parameters
 });
 
 var mainView = app.views.create('.view-main');
 
-// Handle Cordova Device Ready Event
-$$(document).on('deviceready', function () {
-  console.log("Device is ready!");
-
-  // onSuccess Callback
-  // This method accepts a Position object, which contains the
-  // current GPS coordinates
-  //
-  var onSuccess = function (position) {
-    alert('Latitude: ' + position.coords.latitude + '\n' +
-      'Longitude: ' + position.coords.longitude + '\n' +
-      'Altitude: ' + position.coords.altitude + '\n' +
-      'Accuracy: ' + position.coords.accuracy + '\n' +
-      'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '\n' +
-      'Heading: ' + position.coords.heading + '\n' +
-      'Speed: ' + position.coords.speed + '\n' +
-      'Timestamp: ' + position.timestamp + '\n');
-  };
-
-  // onError Callback receives a PositionError object
-  //
-  function onError(error) {
-    alert('code: ' + error.code + '\n' +
-      'message: ' + error.message + '\n');
-  }
-
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-});
-
-// Option 1. Using one 'page:init' handler for all pages
-$$(document).on('page:init', function (e) {
-  // Do something here when page loaded and initialized
-  console.log(e);
-})
-
-// Option 2. Using live 'page:init' event handlers for each page
-$$(document).on('page:init', '.page[data-name="about"]', function (e) {
-  // Do something here when page with data-name="about" attribute loaded and initialized
-  console.log(e);
-})
-
+//Variables de firestore
 var db = firebase.firestore();
 var colUser = db.collection("Users");
 
@@ -86,10 +47,13 @@ function register() {
 
       data = {
         name: name,
+        email: email,
+        password: password,
+        tel: tel,
+        gender: gender,
+        date: date,
         rol: "User"
       }
-
-      console.log('hola');
 
       colUser.doc(passOfCollection).set(data)
         .then(() => {
@@ -108,37 +72,59 @@ function register() {
     });
 }
 
-// function login() {
-//   var email = $$('#Lemail').val();
-//   var password = $$('#Lpassword').val();
+//Función de ingreso
+function login() {
+  var email = $$('#Lemail').val();
+  var password = $$('#Lpassword').val();
 
-//   console.log(email, password);
+  console.log(email, password);
 
-//   firebase.auth().signInWithEmailAndPassword(email, password)
-//     .then((userCredential) => {
-//       // Signed in
-//       // ...
-//       var user = userCredential.user;
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in
+      var user = userCredential.user;
 
-//       passOfCollection = email;
-//       var docRef = colUser.doc(passOfCollection);
+      console.log("Bienvenid@!!! " + email);
+      // ...
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
 
-//       docRef.get().then((doc) => {
-//         if (doc.exits)
-//       })
-//     })
-//     .catch((error) => {
-//       var errorCode = error.code;
-//       var errorMessage = error.message;
-//     });
-// }
+      console.error(errorCode);
+      console.error(errorMessage);
+    });
+
+}
+
+// Handle Cordova Device Ready Event
+$$(document).on('deviceready', function () {
+  console.log("Device is ready!");
+});
+
+// Option 1. Using one 'page:init' handler for all pages
+$$(document).on('page:init', function (e) {
+  // Do something here when page loaded and initialized
+  console.log(e);
+})
+
+// Option 2. Using live 'page:init' event handlers for each page
+$$(document).on('page:init', '.page[data-name="about"]', function (e) {
+  // Do something here when page with data-name="about" attribute loaded and initialized
+  console.log(e);
+})
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
   $$('.convert-form-to-data').on('click', register);
 })
 
+$$(document).on('page:init', '.page[data-name="ingreso"]', function (e) {
+  $$('.convert-form-to-data').on('click', login);
+})
+
+//slider
 $$('#preNext').click(function () {
-  var width = $$('.swiper-slide').width() + 50;
+  var width = $$('.swiper-slide').width();
   width -= width * 2;
 
   $$('#slider').css('transform', 'translate3d(' + width + 'px, 0px, 0px)');
