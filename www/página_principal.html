@@ -1,20 +1,38 @@
 <!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
 <div class="page" data-name="página_principal">
     <!-- Top Navbar -->
-    <div class="navbar">
-        <div class="navbar-bg"></div>
-        <div class="navbar-inner">
-            <div class="title">Tradder</div>
-            <div class="right">
-                <a class="margin-right" href="/ingreso/" id="Ingreso">Iniciar Sesión</a>
-                <a class="margin-right" href="/registro/" id="Registro">Registro</a>
-                <a class="margin-right" href="#" id="signOut">Cerrar Sesión</a>
+    <nav class="navbarB">
+        <div class="mobile-nav">
+            <div class="container">
+                <a class="tNavbar">Tradder</a>
+
+                <button class="hamburger button no-ripple">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <div class="menu-mobile">
+                <a href="/pagPrin/">Home</a>
+                <a href="/ingreso/">Login</a>
+                <a href="/registro/">Sign Up</a>
             </div>
         </div>
-    </div>
+    </nav>
+
+    <nav class="navbarA">
+        <div class="container">
+            <a class="tNavbar">Tradder</a>
+            <div class="menu">
+                <a href="/pagPrin/">Home</a>
+                <a href="/ingreso/">Login</a>
+                <a href="/registro/">Sign Up</a>
+            </div>
+        </div>
+    </nav>
 
     <div class="page-content">
-        <h1 id="títuloPP">Tradder</h1>
         <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus sequi aliquam itaque soluta sapiente
             similique hic tempore dolore quisquam quidem atque eius illo aliquid quis velit error quos, aut excepturi!
         </h2>

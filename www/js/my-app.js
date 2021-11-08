@@ -124,6 +124,16 @@ $$(document).on('page:init', function (e) {
     $$('#Registro').css('display', 'block');
     $$('#signOut').css('display', 'none')
   }
+
+  $$('.hamburger.button.no-ripple').on('click', function () {
+    if ($$('.hamburger.button.no-ripple').hasClass('is-active')) {
+      $$('.hamburger.button.no-ripple').attr('class', 'hamburger button no-ripple');
+      $$('.menu-mobile').attr('class', 'menu-mobile');
+    } else {
+      $$('.hamburger.button.no-ripple').attr('class', 'hamburger is-active button no-ripple');
+      $$('.menu-mobile').attr('class', 'menu-mobile is-active');
+    }
+  })
 })
 
 $$(document).on('page:init', '.page[data-name="página_principal"]', function (e) {
