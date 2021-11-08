@@ -4,102 +4,35 @@
     <div class="navbar">
         <div class="navbar-bg"></div>
         <div class="navbar-inner">
-            <div class="title">Formulario de ingreso</div>
+            <a href="#" class="link back">
+                <div class="left"><i class="icon icon-back"></i></div>
+            </a>
+            <div class="title">Tradder</div>
         </div>
     </div>
 
-    <!-- Toolbar -->
-    <div class="toolbar toolbar-bottom">
-        <div class="toolbar-inner">
-            <!-- Toolbar links -->
-            <a href="#" class="link">Link 1</a>
-            <a href="#" class="link">Link 2</a>
-        </div>
-    </div>
+    <div class="page-content" id="bRegistro">
+        <div id="rForm">
+            <div class="rForm">
+                <h1 class="rTitle">Registro</h1>
+                <div class="grupo">
+                    <input type="text" name="name" id="name" required><span class="barra"></span>
+                    <label>Nombre</label>
+                </div>
+                <div class="grupo">
+                    <input type="text" name="surname" id="surname" required><span class="barra"></span>
+                    <label>Apellido</label>
+                </div>
+                <div class="grupo">
+                    <input type="email" name="rEmail" id="rEmail" required><span class="barra"></span>
+                    <label>Email</label>
+                </div>
+                <div class="grupo">
+                    <input type="password" name="rPassword" id="rPassword" required><span class="barra"></span>
+                    <label>Password</label>
+                </div>
 
-    <div class="page-content">
-        <form class="list" id="my-form">
-            <div class="list inline-labels no-hairlines-md">
-                <ul>
-                    <li class="item-content item-input">
-                        <div class="item-media">
-                            <i class="icon demo-list-icon"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title item-label">Nombre completo</div>
-                            <div class="item-input-wrap">
-                                <input type="text" id="name" name="Nombre" placeholder="Tu nombre completo" />
-                                <span class="input-clear-button"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item-content item-input">
-                        <div class="item-media">
-                            <i class="icon demo-list-icon"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title item-label">Contraseña</div>
-                            <div class="item-input-wrap">
-                                <input type="password" id="password" name="Contraseña" placeholder="Tu contraseña" />
-                                <span class="input-clear-button"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item-content item-input">
-                        <div class="item-media">
-                            <i class="icon demo-list-icon"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title item-label">E-mail</div>
-                            <div class="item-input-wrap">
-                                <input type="email" id="email" name="E-mail" placeholder="Tu E-mail" />
-                                <span class="input-clear-button"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item-content item-input">
-                        <div class="item-media">
-                            <i class="icon demo-list-icon"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title item-label">Teléfono</div>
-                            <div class="item-input-wrap">
-                                <input type="tel" id="tel" name="Tel" placeholder="Tu número de teléfono" />
-                                <span class="input-clear-button"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item-content item-input">
-                        <div class="item-media">
-                            <i class="icon demo-list-icon"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title item-label">Género</div>
-                            <div class="item-input-wrap input-dropdown-wrap">
-                                <select name="Género" id="gender" placeholder="Elige una opción...">
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Femenino">Femenino</option>
-                                </select>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item-content item-input">
-                        <div class="item-media">
-                            <i class="icon demo-list-icon"></i>
-                        </div>
-                        <div class="item-inner">
-                            <div class="item-title item-label">Fecha de nacimiento</div>
-                            <div class="item-input-wrap">
-                                <input type="date" id="date" value="2014-04-30" name="Nacimiento"
-                                    placeholder="Elige una opción..." />
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </form>
-        <div class="block block-strong row">
-            <div class="col"><a class="button button-fill convert-form-to-data" href="#">Ingresar</a>
+                <button id="rButton" class="button no-ripple">Registrarte</button>
             </div>
         </div>
     </div>

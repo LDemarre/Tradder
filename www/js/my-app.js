@@ -14,9 +14,11 @@ var app = new Framework7({
   },
   // Add default routes
   routes: [
-    { path: '/about/', url: 'about.html', },
+    { path: '/pagPrin/', url: 'página_principal.html', },
     { path: '/registro/', url: 'registro.html', },
     { path: '/ingreso/', url: 'ingreso.html' },
+    { path: '/ingresoTemp/', url: 'ingresoTemp.html' },
+    { path: '/registroTemp/', url: 'registroTemp.html' },
   ]
   // ... other parameters
 });
@@ -30,11 +32,9 @@ var colUser = db.collection("Users");
 //Función de registro
 function register() {
   var name = $$('#name').val();
-  var email = $$('#email').val();
-  var password = $$('#password').val();
-  var tel = $$('#tel').val();
-  var gender = $$('#gender').val();
-  var date = $$('#date').val();
+  var surname = $$('#surname').val();
+  var email = $$('#rEmail').val();
+  var password = $$('#rPassword').val();
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -47,17 +47,16 @@ function register() {
 
       data = {
         name: name,
+        surname: surname,
         email: email,
         password: password,
-        tel: tel,
-        gender: gender,
-        date: date,
         rol: "User"
       }
 
       colUser.doc(passOfCollection).set(data)
         .then(() => {
           console.log("Document successfully written!");
+          mainView.router.navigate('/registroTemp/');
         })
         .catch((error) => {
           console.error("Error writing document: ", error);
@@ -74,8 +73,8 @@ function register() {
 
 //Función de ingreso
 function login() {
-  var email = $$('#Lemail').val();
-  var password = $$('#Lpassword').val();
+  var email = $$('#lEmail').val();
+  var password = $$('#lPassword').val();
 
   console.log(email, password);
 
@@ -85,6 +84,7 @@ function login() {
       var user = userCredential.user;
 
       console.log("Bienvenid@!!! " + email);
+      mainView.router.navigate('/ingresoTemp/');
       // ...
     })
     .catch((error) => {
@@ -92,9 +92,18 @@ function login() {
       var errorMessage = error.message;
 
       console.error(errorCode);
-      console.error(errorMessage);
+      console.log(errorMessage);
     });
 
+}
+
+//Función para cerrar sesión
+function signOut() {
+  firebase.auth().signOut().then(() => {
+    mainView.router.refreshPage();
+  }).catch((error) => {
+    // An error happened.
+  });
 }
 
 // Handle Cordova Device Ready Event
@@ -104,22 +113,29 @@ $$(document).on('deviceready', function () {
 
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init', function (e) {
-  // Do something here when page loaded and initialized
-  console.log(e);
+  var user = firebase.auth().currentUser;
+
+  if (user) {
+    $$('#Ingreso').css('display', 'none');
+    $$('#Registro').css('display', 'none');
+    $$('#signOut').css('display', 'block');
+  } else {
+    $$('#Ingreso').css('display', 'block');
+    $$('#Registro').css('display', 'block');
+    $$('#signOut').css('display', 'none')
+  }
 })
 
-// Option 2. Using live 'page:init' event handlers for each page
-$$(document).on('page:init', '.page[data-name="about"]', function (e) {
-  // Do something here when page with data-name="about" attribute loaded and initialized
-  console.log(e);
+$$(document).on('page:init', '.page[data-name="página_principal"]', function (e) {
+  $$('#signOut').on('click', signOut);
 })
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
-  $$('.convert-form-to-data').on('click', register);
+  $$('#rButton').on('click', register);
 })
 
 $$(document).on('page:init', '.page[data-name="ingreso"]', function (e) {
-  $$('.convert-form-to-data').on('click', login);
+  $$('#lButton').on('click', login);
 })
 
 //slider
