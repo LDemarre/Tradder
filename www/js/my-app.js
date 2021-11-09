@@ -116,13 +116,15 @@ $$(document).on('page:init', function (e) {
   var user = firebase.auth().currentUser;
 
   if (user) {
-    $$('#Ingreso').css('display', 'none');
-    $$('#Registro').css('display', 'none');
+    $$('#home').css('display', 'none');
+    $$('#login').css('display', 'none');
+    $$('#signUp').css('display', 'none');
     $$('#signOut').css('display', 'block');
   } else {
-    $$('#Ingreso').css('display', 'block');
-    $$('#Registro').css('display', 'block');
-    $$('#signOut').css('display', 'none')
+    $$('#home').css('display', 'block');
+    $$('#login').css('display', 'block');
+    $$('#signUp').css('display', 'block');
+    $$('#signOut').css('display', 'none');
   }
 
   $$('.hamburger.button.no-ripple').on('click', function () {
