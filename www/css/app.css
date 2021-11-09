@@ -12,7 +12,7 @@
 #preNext{
   display: inline-block;
   border: none;
-  background-color: #1b5e20;
+  background-color: #B388FF;
   color: #FFFFFF;
   padding: 0.5rem 2rem;
   border-radius: 1rem;
@@ -39,11 +39,13 @@
 }
 
 #preNext:hover {
-  background-color: #3e8e41;
+  background-color: #673AB7
+
+  ;
 }
 
 #preNext:active {
-  background-color: #3e8e41;
+  background-color: #B388FF;
   box-shadow: 0 5px #666;
   transform: translateY(5px);
 }
@@ -60,14 +62,15 @@
 #priInfo {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1b5e20;
+  color: #EDE7F6;
 }
 
 /* Página Principal */
 .page-content {
-  background: #1D976C;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #5E35B1;  /* fallback for old browsers */
+/*background: -webkit-linear-gradient(to left, #B06AB3, #4568DC);  /* Chrome 10-25, Safari 5.1-6 */
+/*background: linear-gradient(to left, #B06AB3, #4568DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .productos {
