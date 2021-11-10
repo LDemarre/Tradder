@@ -1,12 +1,12 @@
 :root {
-  --primary: #8c38ff;
+  --primary: #4527A0;
   --light: #EEEEEE;
   --dark: #212121;
 }
 
 /* Inicio */
 #imgInit img {
-  width: 50%;
+  height: 25rem;
 }
 
 #preNext{
@@ -67,7 +67,7 @@
 
 /* Página Principal */
 .page-content {
-  background: #5E35B1;  /* fallback for old browsers */
+  background: #9575CD;  /* fallback for old browsers */
 /*background: -webkit-linear-gradient(to left, #B06AB3, #4568DC);  /* Chrome 10-25, Safari 5.1-6 */
 /*background: linear-gradient(to left, #B06AB3, #4568DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
@@ -78,7 +78,7 @@
   padding: 1rem;
   border-radius: 1rem;
   display: inline-block;
-  background-color: #52b788;
+  background-color: #5C6BC0;
   cursor: pointer;
 }
 
@@ -201,9 +201,11 @@ nav {
 
 /* Formulario de registro e ingreso */
 #bRegistro, #bIngreso, #ingresoTemp {
+  background: #9575CD;
+  /*
   background: #1D976C;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /*background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
+  /*background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -279,7 +281,8 @@ label {
   width: 0;
   bottom: 0;
   left: 0;
-  background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #9575CD;
+  /*background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   transition: 0.3s ease width;
 }
 
@@ -288,9 +291,11 @@ label {
 }
 
 #rButton, #lButton {
-  background: #1D976C;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #9575CD;
+  
+  /*background: #1D976C;  /* fallback for old browsers */
+  /*background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
+  /*background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   border: none;
   display: block;
   width: 80%;
@@ -324,7 +329,7 @@ label {
 }
 
 #ingresoTemp h1 {
-  color: #0dcf0d;
+  color: #000000;
 }
 
 
