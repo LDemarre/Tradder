@@ -68,9 +68,6 @@
 /* Página Principal */
 .page-content {
   background: #9575CD;  /* fallback for old browsers */
-/*background: -webkit-linear-gradient(to left, #B06AB3, #4568DC);  /* Chrome 10-25, Safari 5.1-6 */
-/*background: linear-gradient(to left, #B06AB3, #4568DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 
 .productos {
@@ -202,14 +199,11 @@ nav {
 /* Formulario de registro e ingreso */
 #bRegistro, #bIngreso, #ingresoTemp {
   background: #9575CD;
-  /*
-  background: #1D976C;  /* fallback for old browsers */
-  /*background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
-  /*background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 1rem;
 }
 
 .rTitle {
@@ -219,10 +213,11 @@ nav {
 
 #rForm, #lForm {
   background: #fff;
-  padding: 40px 0;
+  padding: 1rem 0;
   box-shadow: 0 0 6px 0 #ffffffcc;
   border-radius: 10px;
   box-shadow: 7px 13px 37px #000;
+  margin: 1.5rem auto 8.5rem;
 }
 
 .rForm {
@@ -232,14 +227,14 @@ nav {
 
 .rForm .grupo {
   position: relative;
-  margin: 50px;
+  margin: 2.5rem;
 }
 
 .rForm input {
   background: none;
   color: #c6c6c6;
   font-size: 20px;
-  padding: 10px 10px 10px 5px;
+  padding: .5rem .5rem .25rem .25rem;
   display: block;
   width: 100%;
   border: none;
@@ -255,7 +250,7 @@ label {
   color: #7c7878;
   font-size: 16px;
   position: absolute;
-  left: 5px;
+  left: 4px;
   top: 10px;
   transition: 0.5s ease all;
   pointer-events: none;
@@ -282,7 +277,6 @@ label {
   bottom: 0;
   left: 0;
   background: #9575CD;
-  /*background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   transition: 0.3s ease width;
 }
 
@@ -292,10 +286,6 @@ label {
 
 #rButton, #lButton {
   background: #9575CD;
-  
-  /*background: #1D976C;  /* fallback for old browsers */
-  /*background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);  /* Chrome 10-25, Safari 5.1-6 */
-  /*background: linear-gradient(to right, #93F9B9, #1D976C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   border: none;
   display: block;
   width: 80%;
