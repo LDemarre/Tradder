@@ -1,3 +1,5 @@
+// const { keyup } = require("dom7");
+
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
 
@@ -24,6 +26,15 @@ var app = new Framework7({
 });
 
 var mainView = app.views.create('.view-main');
+
+//Expresiones regulares - Formulario de registro
+const expresiones = {
+  user: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+  name: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+  password: /^.{4,12}$/, // 4 a 12 digitos.
+  email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+  phone: /^\d{7,14}$/ // 7 a 14 numeros.
+}
 
 //Variables de firestore
 var db = firebase.firestore();
@@ -99,11 +110,125 @@ function login() {
 
 //Función para cerrar sesión
 function signOut() {
-  firebase.auth().signOut().then(() => {
-    mainView.router.refreshPage();
-  }).catch((error) => {
-    // An error happened.
-  });
+  firebase.auth().signOut()
+    .then(() => {
+      mainView.router.refreshPage();
+    }).catch((error) => {
+      // An error happened.
+    });
+}
+
+var bool = false;
+
+function formValidation(e) {
+  if (e.target.name == 'Name') {
+    if (expresiones.user.test(e.target.value)) {
+      $$('#gName').removeClass('grupo-incorrect');
+      $$('#gName').addClass('grupo-correct');
+
+      $$('#gName > i').removeClass('form-val-status fa-regular fa-circle-xmark');
+      $$('#gName > i').addClass('form-val-status fa-solid fa-check');
+
+      // if (bool) {
+      //   $$('#form-error-name').toggleClass('is-active');
+      //   $$('#gName > i').css('bottom', '10px');
+      //   bool = !bool;
+      // }
+    }
+    else {
+      $$('#gName').removeClass('grupo-correct');
+      $$('#gName').addClass('grupo-incorrect');
+
+      $$('#gName > i').removeClass('form-val-status fa-solid fa-check');
+      $$('#gName > i').addClass('form-val-status fa-regular fa-circle-xmark');
+
+      // if (!bool) {
+      //   $$('#form-error-name').toggleClass('is-active');
+      //   $$('#gName > i').css('bottom', '45px');
+      //   bool = !bool;
+      // }
+    }
+  }
+  else if (e.target.name == 'Surname') {
+    if (expresiones.user.test(e.target.value)) {
+      $$('#gSurname').removeClass('grupo-incorrect');
+      $$('#gSurname').addClass('grupo-correct');
+
+      $$('#gSurname > i').removeClass('form-val-status fa-regular fa-circle-xmark');
+      $$('#gSurname > i').addClass('form-val-status fa-solid fa-check');
+    }
+    else {
+      $$('#gSurname').removeClass('grupo-correct');
+      $$('#gSurname').addClass('grupo-incorrect');
+
+      $$('#gSurname > i').removeClass('form-val-status fa-solid fa-check');
+      $$('#gSurname > i').addClass('form-val-status fa-regular fa-circle-xmark');
+    }
+  }
+  else if (e.target.name == 'Email') {
+    if (expresiones.user.test(e.target.value)) {
+      $$('#gEmail').removeClass('grupo-incorrect');
+      $$('#gEmail').addClass('grupo-correct');
+
+      $$('#gEmail > i').removeClass('form-val-status fa-regular fa-circle-xmark');
+      $$('#gEmail > i').addClass('form-val-status fa-solid fa-check');
+    }
+    else {
+      $$('#gEmail').removeClass('grupo-correct');
+      $$('#gEmail').addClass('grupo-incorrect');
+
+      $$('#gEmail > i').removeClass('form-val-status fa-solid fa-check');
+      $$('#gEmail > i').addClass('form-val-status fa-regular fa-circle-xmark');
+    }
+  }
+  else if (e.target.name == 'Password') {
+    if (expresiones.user.test(e.target.value)) {
+      $$('#gPassword').removeClass('grupo-incorrect');
+      $$('#gPassword').addClass('grupo-correct');
+
+      $$('#gPassword > i').removeClass('form-val-status fa-regular fa-circle-xmark');
+      $$('#gPassword > i').addClass('form-val-status fa-solid fa-check');
+    }
+    else {
+      $$('#gPassword').removeClass('grupo-correct');
+      $$('#gPassword').addClass('grupo-incorrect');
+
+      $$('#gPassword > i').removeClass('form-val-status fa-solid fa-check');
+      $$('#gPassword > i').addClass('form-val-status fa-regular fa-circle-xmark');
+    }
+  }
+  else if (e.target.name == 'ConPassword') {
+    if (expresiones.user.test(e.target.value)) {
+      $$('#gConPassword').removeClass('grupo-incorrect');
+      $$('#gConPassword').addClass('grupo-correct');
+
+      $$('#gConPassword > i').removeClass('form-val-status fa-regular fa-circle-xmark');
+      $$('#gConPassword > i').addClass('form-val-status fa-solid fa-check');
+    }
+    else {
+      $$('#gConPassword').removeClass('grupo-correct');
+      $$('#gConPassword').addClass('grupo-incorrect');
+
+      $$('#gConPassword > i').removeClass('form-val-status fa-solid fa-check');
+      $$('#gConPassword > i').addClass('form-val-status fa-regular fa-circle-xmark');
+    }
+  }
+  else {
+    if (expresiones.user.test(e.target.value)) {
+      $$('#gPhone').removeClass('grupo-incorrect');
+      $$('#gPhone').addClass('grupo-correct');
+
+      $$('#gPhone > i').removeClass('form-val-status fa-regular fa-circle-xmark');
+      $$('#gPhone > i').addClass('form-val-status fa-solid fa-check');
+    }
+    else {
+      $$('#gPhone').removeClass('grupo-correct');
+      $$('#gPhone').addClass('grupo-incorrect');
+
+      $$('#gPhone > i').removeClass('form-val-status fa-solid fa-check');
+      $$('#gPhone > i').addClass('form-val-status fa-regular fa-circle-xmark');
+    }
+  }
 }
 
 // Handle Cordova Device Ready Event
@@ -128,13 +253,8 @@ $$(document).on('page:init', function (e) {
   }
 
   $$('.hamburger.button.no-ripple').on('click', function () {
-    if ($$('.hamburger.button.no-ripple').hasClass('is-active')) {
-      $$('.hamburger.button.no-ripple').attr('class', 'hamburger button no-ripple');
-      $$('.menu-mobile').attr('class', 'menu-mobile');
-    } else {
-      $$('.hamburger.button.no-ripple').attr('class', 'hamburger is-active button no-ripple');
-      $$('.menu-mobile').attr('class', 'menu-mobile is-active');
-    }
+    $$('.hamburger.button.no-ripple').toggleClass('is-active');
+    $$('.menu-mobile').toggleClass('is-active');
   })
 })
 
@@ -143,7 +263,13 @@ $$(document).on('page:init', '.page[data-name="página_principal"]', function (e
 })
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
-  $$('#rButton').on('click', register);
+  $$('input').on('keyup', formValidation);
+  $$('input').on('blur', formValidation);
+
+  $$('#rButton').on('click', function (e) {
+    e.preventDefault();
+    register();
+  });
 })
 
 $$(document).on('page:init', '.page[data-name="ingreso"]', function (e) {

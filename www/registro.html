@@ -26,36 +26,59 @@
 
     <div class="page-content" id="bRegistro">
         <div id="rForm">
-            <div class="rForm">
+            <form class="rForm" method="post">
                 <h1 class="rTitle">Registro</h1>
-                <div class="grupo">
-                    <input type="text" name="name" id="name" required><span class="barra"></span>
+                <div class="grupo" id="gName">
+                    <input type="text" name="Name" id="name" required><span class="barra"></span>
                     <label>Name</label>
+                    <i class="form-val-status fa-regular fa-circle-xmark" id="iName"></i>
+                    <p class="form-input-error" id="form-error-name">El usuario tiene que ser de 4 a 6 dígitos y sólo
+                        puede contener numeros,
+                        letras y guión bajo.</p>
                 </div>
-                <div class="grupo">
-                    <input type="text" name="surname" id="surname" required><span class="barra"></span>
+                <div class="grupo" id="gSurname">
+                    <input type="text" name="Surname" id="surname" required><span class="barra"></span>
                     <label>Surname</label>
+                    <i class="form-val-status fa-regular fa-circle-xmark" id="iSurname"></i>
+                    <p class="form-input-error">El usuario tiene que ser de 4 a 6 dígitos y sólo puede contener numeros,
+                        letras y guión bajo.</p>
                 </div>
-                <div class="grupo">
-                    <input type="email" name="rEmail" id="rEmail" required><span class="barra"></span>
+                <div class="grupo" id="gEmail">
+                    <input type="email" name="Email" id="rEmail" required><span class="barra"></span>
                     <label>Email</label>
+                    <i class="form-val-status fa-regular fa-circle-xmark" id="iEmail"></i>
+                    <p class="form-input-error">El correo sólo puede contener letras, números, puntos, guiones y guión
+                        bajo.</p>
                 </div>
-                <div class="grupo">
-                    <input type="password" name="rPassword" id="rPassword" required><span class="barra"></span>
+                <div class="grupo" id="gPassword">
+                    <input type="password" name="Password" id="rPassword" required><span class="barra"></span>
                     <label>Password</label>
+                    <i class="form-val-status fa-regular fa-circle-xmark" id="iPassword"></i>
+                    <p class="form-input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
                 </div>
-                <div class="grupo">
-                    <input type="password" name="rConPassword" id="rConPassword" required><span class="barra"></span>
+                <div class="grupo" id="gConPassword">
+                    <input type="password" name="ConPassword" id="rConPassword" required><span class="barra"></span>
                     <label>Confirm Password</label>
+                    <i class="form-val-status fa-regular fa-circle-xmark" id="iConPassword"></i>
+                    <p class="form-input-error">Ambas contraseñas tiene que ser iguales.</p>
                 </div>
-                <div class="grupo">
-                    <input type="tel" name="rTel" id="rTel" required><span class="barra"></span>
+                <div class="grupo" id="gPhone">
+                    <input type="tel" name="Phone" id="rTel" required><span class="barra"></span>
                     <label>Phone Number</label>
+                    <i class="form-val-status fa-regular fa-circle-xmark" id="iPhone"></i>
+                    <p class="form-input-error">El teléfono sólo puede contener números y el máximo son 14 dígitos.</p>
+                </div>
+                <div class="grupo" id="form-message">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
+                    <span> Por favor rellena el formulario correctamente.</span>
                 </div>
 
                 <button id="rButton" class="button no-ripple">Registrarte</button>
-            </div>
-        </div>
 
+                <div class="grupo" id="form-message-exito">
+                    <span> Formulario rellenado correctamente.</span>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

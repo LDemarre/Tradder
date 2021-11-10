@@ -306,6 +306,63 @@ label {
   box-shadow: 0px 20px 5px -15px #0000004d;
 }
 
+.form-input-error {
+  font-size: 14px;
+  margin-bottom: 0;
+  display: none;
+}
+
+.form-input-error.is-active {
+  display: block;
+  position: relative;
+}
+
+.form-val-status {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 100;
+  font-size: 16px;
+  /* opacity: 0; */
+}
+
+#form-message {
+  height: 45px;
+  line-height: 45px;
+  background-color: #fa4d4d;
+  padding: 0 15px;
+  border-radius: 6px;
+  display: none;
+}
+
+#form-message {
+  margin: 1.5rem;
+}
+
+#form-message-active {
+  display: block;
+}
+
+#form-message-exito {
+  font-size: 14px;
+  color: #119200;
+  display: none;
+}
+
+#form-message-exito-active{
+  display: block;
+}
+
+.grupo-correct .form-val-status {
+  color: #1ed12d;
+  opacity: 1;
+}
+
+.grupo-incorrect .form-val-status {
+  color: #bb2929;
+  opacity: 1;
+}
+
 /* Estilos temporales */
 #ingresoTemp div {
   background-color: white;
@@ -382,7 +439,6 @@ label {
     display: block;
   }
 }
-
 
 /* poppins-regular - latin */
 @font-face {
