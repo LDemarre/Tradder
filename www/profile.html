@@ -1,0 +1,92 @@
+<!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
+<div class="page" data-name="profile">
+    <!-- Top Navbar -->
+    <nav class="navbarB">
+        <div class="mobile-nav">
+            <div class="container">
+                <a class="tNavbar" href="/pagPrin/">Tradder</a>
+                <div class="action" id="myAcc">
+                    <div class="profile" id="profile">
+                        <img src="img/user.png">
+                    </div>
+                    <div class="menu-acc">
+                        <ul>
+                            <h3></h3>
+                            <li><img src="img/editing.png"><a href="/profile/">Editar Perfil</a></li>
+                            <li><img src="img/help.png"><a href="#">Ayuda</a></li>
+                            <li><img src="img/logout.png"><a href="/pagPrin/" id="signOut">Desconectar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="navbarA">
+        <div class="container">
+            <a class="tNavbar" href="/pagPrin/">Tradder</a>
+            <div class="menu">
+                <div class="action" id="myAcc">
+                    <div class="profile" id="profile">
+                        <img src="img/user.png">
+                    </div>
+                    <div class="menu-acc">
+                        <ul>
+                            <h3></h3>
+                            <li><img src="img/editing.png"><a href="/profile/">Editar Perfil</a></li>
+                            <li><img src="img/help.png"><a href="#">Ayuda</a></li>
+                            <li><img src="img/logout.png"><a href="/pagPrin/" id="signOut">Desconectar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toolbar -->
+    <div class="toolbar toolbar-bottom">
+        <div class="toolbar-inner">
+            <!-- Toolbar links -->
+            <a href="#" class="link">Link 1</a>
+            <a href="#" class="link">Link 2</a>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="container-profile">
+            <div class="leftbox">
+                <div>
+                    <a onclick="tabs(0)" class="tab active">
+                        <i class="fa fa-user"></i>
+                    </a>
+                    <a onclick="tabs(1)" class="tab">
+                        <i class="fa fa-credit-card"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="rightbox">
+                <div class="profile tabShow">
+                    <h1>Info Personal</h1>
+                    <h2>Nombre Completo</h2>
+                    <input type="text" class="input" id="pFullName">
+                    <h2>Día de nacimiento</h2>
+                    <input type="text" class="input" id="pBirthday">
+                    <h2>Teléfono</h2>
+                    <input type="text" class="input" id="pPhone">
+
+
+                    <button class="btn">Update</button>
+                </div>
+                <div class="payment tabShow">
+                    <h1>Info de Seguridad</h1>
+                    <h2>Email</h2>
+                    <input type="text" class="input" id="pEmail">
+                    <h2>Contraseña</h2>
+                    <input type="password" class="input" id="pPassword">
+
+                    <button class="btn">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

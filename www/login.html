@@ -1,5 +1,5 @@
 <!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
-<div class="page" data-name="ingreso">
+<div class="page" data-name="login">
     <!-- Top Navbar -->
     <nav class="navbarB">
         <div class="mobile-nav">
@@ -24,20 +24,25 @@
         </div>
     </div>
 
-    <div class="page-content" id="bIngreso">
+    <div class="page-content" id="bLogin">
         <div id="rForm">
             <div class="rForm">
                 <h1 class="rTitle">Iniciar Sesión</h1>
-                <div class="grupo">
-                    <input type="email" name="lEmail" id="lEmail" required><span class="barra"></span>
+                <div class="group">
+                    <input type="text" name="lEmail" id="lEmail" required><span class="barra"></span>
                     <label>Email</label>
                 </div>
-                <div class="grupo">
+                <div class="group">
                     <input type="password" name="lPassword" id="lPassword" required><span class="barra"></span>
-                    <label>Password</label>
+                    <label>Contraseña</label>
                 </div>
 
                 <button id="lButton" class="button no-ripple">Iniciar Sesión</button>
+
+                <div class="group" id="form-message-error-login">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
+                    <span>El email no está registrado</span>
+                </div>
             </div>
         </div>
     </div>

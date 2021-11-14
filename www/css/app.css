@@ -6,6 +6,9 @@
   --bPress: #673AB7;
   --bColor: #B388FF;
   --elementColor: #5C6BC0;
+  --white: #fff;
+  --bProfile: #311B92;
+  --bProfile2: #7C4DFF;
 }
 
 /* Inicio */
@@ -17,7 +20,7 @@
   display: inline-block;
   border: none;
   background-color: var(--bColor);
-  color: #FFFFFF;
+  color: var(--white);
   padding: 0.5rem 2rem;
   border-radius: 1rem;
   box-shadow: 0 5px #0000005e;
@@ -72,7 +75,7 @@
   background: var(--gradiant);  /* fallback for old browsers */
 }
 
-.productos {
+.products {
   margin: 0 1.5rem;
   padding: 1rem;
   border-radius: 1rem;
@@ -81,7 +84,7 @@
   cursor: pointer;
 }
 
-.productos img {
+.products img {
   background-color: white;
   border-radius: 1rem;
   width: 100%;
@@ -117,7 +120,7 @@ nav {
 }
 
 .tNavbar {
-  color: #fff;
+  color: var(--white);;
   font-size: 28px;
   font-weight: 900;
   letter-spacing: 2px;
@@ -180,7 +183,7 @@ nav {
 }
 
 .menu a, .menu-mobile a {
-  color: #FFF;
+  color: var(--white);;
   margin: 0 16px;
   font-size: 18px;
   font-weight: 600;
@@ -199,7 +202,7 @@ nav {
 }
 
 /* Formulario de registro e ingreso */
-#bRegistro, #bIngreso, #ingresoTemp {
+#bRegistro, #bLogin, #loginTemp, #registerTemp {
   background: var(--gradiant);
   height: 100%;
   display: flex;
@@ -214,7 +217,7 @@ nav {
 }
 
 #rForm, #lForm {
-  background: #fff;
+  background: var(--white);;
   padding: 1rem 0;
   box-shadow: 0 0 6px 0 #ffffffcc;
   border-radius: 10px;
@@ -227,7 +230,7 @@ nav {
   margin: auto;
 }
 
-.rForm .grupo {
+.rForm .group {
   position: relative;
   margin: 2.5rem;
 }
@@ -292,7 +295,7 @@ label {
   display: block;
   width: 80%;
   margin: 10px auto;
-  color: #fff;
+  color: var(--white);;
   height: 40px;
   font-size: 16px;
   cursor: pointer;
@@ -307,14 +310,22 @@ label {
 }
 
 .form-input-error {
-  font-size: 14px;
-  margin-bottom: 0;
   display: none;
+  font-size: 14px;
+  margin: 0;
+  position: absolute;
+  left: 280px;
+  bottom: -15px;
+  width: 100%;
+  background-color: white;
+  border: #000 solid 2px;
+  border-radius: 5px;
+  padding: .3rem;
+  z-index: 999;
 }
 
 .form-input-error.is-active {
   display: block;
-  position: relative;
 }
 
 .form-val-status {
@@ -323,64 +334,267 @@ label {
   bottom: 10px;
   z-index: 100;
   font-size: 16px;
-  /* opacity: 0; */
+  opacity: 0;
 }
 
-#form-message {
-  height: 45px;
-  line-height: 45px;
-  background-color: #fa4d4d;
-  padding: 0 15px;
-  border-radius: 6px;
+#form-message-error, #form-message-error-login {
+  font-size: 14px;
+  color: #fa4d4d;
+  text-align: center;
   display: none;
 }
 
-#form-message {
-  margin: 1.5rem;
+#form-message-error, #form-message-error-login {
+  margin: 1rem;
 }
 
-#form-message-active {
+#form-message-error.is-active, #form-message-error-login.is-active{
   display: block;
 }
 
 #form-message-exito {
   font-size: 14px;
   color: #119200;
+  margin: 0;
+  padding: 1rem 0;
+  text-align: center;
   display: none;
 }
 
-#form-message-exito-active{
+#form-message-exito.is-active{
   display: block;
 }
 
-.grupo-correct .form-val-status {
+.group-correct .form-val-status {
   color: #1ed12d;
   opacity: 1;
 }
 
-.grupo-incorrect .form-val-status {
+.group-incorrect .form-val-status {
   color: #bb2929;
   opacity: 1;
 }
 
 /* Estilos temporales */
-#ingresoTemp div {
+#loginTemp div, #registerTemp div {
   background-color: white;
   padding: 50px 25px;
   border-radius: 1rem;
   width: 25%;
 }
 
-#ingresoTemp h1, #ingresoTemp h2, #ingresoTemp a {
+#loginTemp h1, #loginTemp h2, #loginTemp a,
+#registerTemp h1, #registerTemp h2, #registerTemp a{
   display: block;
   text-align: center;
   font-size: 30px;
 }
 
-#ingresoTemp h1 {
+#loginTemp h1, #registerTemp h1 {
   color: #000000;
 }
 
+/* Mi cuenta */
+.action .profile {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.action .profile img {
+  width: 100%;
+  color: var(--white);;
+}
+
+.action .menu-acc {
+  position: absolute;
+  top: 70px;
+  right: -10px;
+  padding: 10px 20px;
+  background: var(--white);;
+  width: 12.5rem;
+  border-radius: 15px;
+  transition: 0.5s;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 999;
+  border: var(--bPress) 3px solid;
+}
+.action .menu-acc.active {
+  visibility: visible;
+  opacity: 1;
+}
+.action .menu-acc::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 28px;
+  width: 20px;
+  height: 20px;
+  background: var(--white);;
+  transform: rotate(45deg);
+}
+
+.action .menu-acc h3 {
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #555;
+  line-height: 1.2em;
+}
+
+.action .menu-acc ul {
+  padding: 0;
+}
+
+.action .menu-acc ul li {
+  list-style: none;
+  padding: 10px 0;
+  border-top: 1px solid #0000000d;
+  display: flex;
+  align-items: center;
+}
+
+.action .menu-acc ul li img {
+  max-width: 20px;
+  margin-right: 10px;
+  opacity: 0.5;
+  transition: 0.5s;
+}
+
+.action .menu-acc ul li:hover img {
+  opacity: 1;
+}
+
+.action .menu-acc ul li a {
+  display: inline-block;
+  text-decoration: none;
+  color: #555;
+  font-weight: 500; 
+  transition: 0.5s;
+}
+
+.action .menu-acc ul li:hover a{
+  background-color: var(--white);;
+  color: var(--bPress);
+}
+
+/* Perfil del usuario */
+.container-profile {
+  background: var(--white);
+  width: 620px;
+  height: 620px;
+  margin: 0 auto;
+  position: relative;
+  margin-top: 5%;
+  box-shadow: 2px 5px 20px #7777c780;
+}
+
+.leftbox {
+  float: left;
+  top: -5%;
+  left: 5%;
+  position: absolute;
+  width: 17%;
+  height: 110%;
+  background: var(--bProfile);
+  box-shadow: 3px 3px 10px #7777c780;
+  border: .1em solid var(--white);
+}
+
+.leftbox a {
+  list-style: none;
+  padding: 35px;
+  color: var(--white);
+  font-size: 2.5em;
+  display: block;
+  transition: all .3s ease-in-out;
+}
+
+.leftbox a:hover {
+  color: var(--bColor);
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.leftbox a:first-child {
+  margin-top: 7px;
+}
+
+.leftbox a.active {
+  color: var(--bColor);
+}
+
+.rightbox {
+  width: 80%;
+  margin-left: 27%;
+  padding-top: 5px;
+}
+
+.tabShow {
+  transition: all .5 ease-in;
+  width: 80%;
+}
+
+.container-profile h1 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--bProfile2);
+  font-size: 2rem;
+  margin-top: 40px;
+  margin-bottom: 35px;
+}
+
+.container-profile h2 {
+  color: #777;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-left: 2px;
+  margin-top: 10px;
+}
+
+.container-profile .input, .container-profile p {
+  border: 0;
+  border-bottom: 1px solid #651FFF
+
+  ;
+  width: 80%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5em;
+  padding: 7px 0;
+  color: #070707;
+  outline: none;
+}
+
+.container-profile span {
+  font-size: .7em;
+  color: #777;
+}
+
+.btn {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-size: 15px;
+  border: 0;
+  color: var(--white);
+  background: var(--bProfile2);
+  padding: 7px 15px;
+  box-shadow: 0px 2px 4px 0px #00000033;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.tabShow {
+  display: none;
+}
+.tabShow.is-active {
+  display: block;
+}
 
 /* Responsive design */
 @media screen and (max-width:500px) {
@@ -419,7 +633,8 @@ label {
     pointer-events: none;
     transition: .4s ease-out;
   }
-  .is-active {
+  
+  .menu-mobile.is-active {
     opacity: 1;
     pointer-events: all;
     position: relative;
@@ -437,6 +652,23 @@ label {
 
   .mobile-nav {
     display: block;
+  }
+
+  .action .menu-acc {
+    top: 90px;
+    right: 25px;
+  }
+
+  .action .menu-acc ul li a {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 870px) {
+  .form-input-error {
+    left: -10px;
+    bottom: -80px;
+    top: 45px;
   }
 }
 

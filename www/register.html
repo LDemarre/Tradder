@@ -28,54 +28,59 @@
         <div id="rForm">
             <form class="rForm" method="post">
                 <h1 class="rTitle">Registro</h1>
-                <div class="grupo" id="gName">
+                <div class="group" id="gName">
                     <input type="text" name="Name" id="name" required><span class="barra"></span>
-                    <label>Name</label>
+                    <label>Nombre</label>
                     <i class="form-val-status fa-regular fa-circle-xmark" id="iName"></i>
-                    <p class="form-input-error" id="form-error-name">El usuario tiene que ser de 4 a 6 dígitos y sólo
+                    <p class="form-input-error" id="form-error-Name">El usuario tiene que ser de 4 a 6 dígitos y sólo
                         puede contener numeros,
                         letras y guión bajo.</p>
                 </div>
-                <div class="grupo" id="gSurname">
+                <div class="group" id="gSurname">
                     <input type="text" name="Surname" id="surname" required><span class="barra"></span>
-                    <label>Surname</label>
+                    <label>Apellido</label>
                     <i class="form-val-status fa-regular fa-circle-xmark" id="iSurname"></i>
-                    <p class="form-input-error">El usuario tiene que ser de 4 a 6 dígitos y sólo puede contener numeros,
+                    <p class="form-input-error" id="form-error-Surname">El usuario tiene que ser de 4 a 6 dígitos y sólo
+                        puede contener numeros,
                         letras y guión bajo.</p>
                 </div>
-                <div class="grupo" id="gEmail">
-                    <input type="email" name="Email" id="rEmail" required><span class="barra"></span>
+                <div class="group" id="gEmail">
+                    <input type="text" name="Email" id="rEmail" required><span class="barra"></span>
                     <label>Email</label>
                     <i class="form-val-status fa-regular fa-circle-xmark" id="iEmail"></i>
-                    <p class="form-input-error">El correo sólo puede contener letras, números, puntos, guiones y guión
+                    <p class="form-input-error" id="form-error-Email">El correo sólo puede contener letras, números,
+                        puntos, guiones y guión
                         bajo.</p>
                 </div>
-                <div class="grupo" id="gPassword">
+                <div class="group" id="gPassword">
                     <input type="password" name="Password" id="rPassword" required><span class="barra"></span>
-                    <label>Password</label>
+                    <label>Contraseña</label>
                     <i class="form-val-status fa-regular fa-circle-xmark" id="iPassword"></i>
-                    <p class="form-input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
+                    <p class="form-input-error" id="form-error-Password">La contraseña tiene que ser de 6 a 12 dígitos.
+                    </p>
                 </div>
-                <div class="grupo" id="gConPassword">
+                <div class="group" id="gConPassword">
                     <input type="password" name="ConPassword" id="rConPassword" required><span class="barra"></span>
-                    <label>Confirm Password</label>
+                    <label>Confirmar Contraseña</label>
                     <i class="form-val-status fa-regular fa-circle-xmark" id="iConPassword"></i>
-                    <p class="form-input-error">Ambas contraseñas tiene que ser iguales.</p>
+                    <p class="form-input-error" id="form-error-ConPassword">Ambas contraseñas tiene que ser iguales.</p>
                 </div>
-                <div class="grupo" id="gPhone">
-                    <input type="tel" name="Phone" id="rTel" required><span class="barra"></span>
-                    <label>Phone Number</label>
+                <div class="group" id="gPhone">
+                    <input type="tel" name="Phone" id="rPhone" required><span class="barra"></span>
+                    <label>Número de teléfono</label>
                     <i class="form-val-status fa-regular fa-circle-xmark" id="iPhone"></i>
-                    <p class="form-input-error">El teléfono sólo puede contener números y el máximo son 14 dígitos.</p>
-                </div>
-                <div class="grupo" id="form-message">
-                    <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
-                    <span> Por favor rellena el formulario correctamente.</span>
+                    <p class="form-input-error" id="form-error-Phone">El teléfono sólo puede contener números y el
+                        máximo
+                        son 14 dígitos.</p>
                 </div>
 
                 <button id="rButton" class="button no-ripple">Registrarte</button>
 
-                <div class="grupo" id="form-message-exito">
+                <div class="group" id="form-message-error">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
+                    <span> Rellena el formulario correctamente.</span>
+                </div>
+                <div class="group" id="form-message-exito">
                     <span> Formulario rellenado correctamente.</span>
                 </div>
             </form>
