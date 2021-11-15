@@ -43,15 +43,6 @@
         </div>
     </nav>
 
-    <!-- Toolbar -->
-    <div class="toolbar toolbar-bottom">
-        <div class="toolbar-inner">
-            <!-- Toolbar links -->
-            <a href="#" class="link">Link 1</a>
-            <a href="#" class="link">Link 2</a>
-        </div>
-    </div>
-
     <div class="page-content">
         <div class="container-profile">
             <div class="leftbox">
@@ -66,27 +57,50 @@
             </div>
             <div class="rightbox">
                 <div class="profile tabShow">
-                    <h1>Info Personal</h1>
+                    <h1>Información Personal</h1>
                     <h2>Nombre Completo</h2>
-                    <input type="text" class="input" id="pFullName">
+                    <input type="text" class="input" id="pFullName" disabled>
                     <h2>Día de nacimiento</h2>
-                    <input type="text" class="input" id="pBirthday">
+                    <input type="text" class="input" id="pBirthday" disabled>
                     <h2>Teléfono</h2>
-                    <input type="text" class="input" id="pPhone">
-
-
-                    <button class="btn">Update</button>
+                    <input type="text" class="input" id="pPhone" disabled>
                 </div>
-                <div class="payment tabShow">
-                    <h1>Info de Seguridad</h1>
-                    <h2>Email</h2>
-                    <input type="text" class="input" id="pEmail">
-                    <h2>Contraseña</h2>
-                    <input type="password" class="input" id="pPassword">
-
-                    <button class="btn">Update</button>
+                <div class="security tabShow">
+                    <h1>Información de Seguridad</h1>
+                    <div class="group-profile">
+                        <h2>Email</h2>
+                        <input type="text" class="input" id="pEmail" disabled></i>
+                        <i class="fas fa-edit" id="btn-cEmail"></i>
+                    </div>
+                    <div class="group-profile">
+                        <h2>Contraseña</h2>
+                        <input type="password" class="input" id="pPassword" disabled>
+                        <i class="fas fa-edit" id="btn-cPassword"></i>
+                    </div>
+                    <button class="btn no-ripple" id="btn-pSecurity-password"
+                        onclick="securityChange(0)">Actualizar</button>
+                    <button class="btn no-ripple" id="btn-pSecurity-email"
+                        onclick="securityChange(1)">Actualizar</button>
                 </div>
             </div>
         </div>
+
+        <footer>
+            <img src="img/xd.png" class="logo">
+            <div class="social-icons-container">
+                <a href="#"><img src="img/ICON_FB.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_IG.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_TW.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_YT.png" class="social-icon"></a>
+            </div>
+            <ul class="footer-menu-container">
+                <li class="menu-item">Legal</li>
+                <li class="menu-item">Cookies</li>
+                <li class="menu-item">Privacy</li>
+                <li class="menu-item">Shipping</li>
+                <li class="menu-item">Refounds</li>
+            </ul>
+            <span class="copyright">&copy;2021, Tradder. All rights reserved.</span>
+        </footer>
     </div>
 </div>

@@ -21,8 +21,6 @@ var app = new Framework7({
     { path: '/pagPrin/', url: 'pagPrin.html', },
     { path: '/register/', url: 'register.html', },
     { path: '/login/', url: 'login.html' },
-    { path: '/loginTemp/', url: 'loginTemp.html' },
-    { path: '/registerTemp/', url: 'registerTemp.html' },
     { path: '/profile/', url: 'profile.html' },
   ]
   // ... other parameters
@@ -33,7 +31,7 @@ var mainView = app.views.create('.view-main');
 //Expresiones regulares - Formulario de registro
 const expression = {
   name: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-  password: /^.{6,12}$/, // 4 a 12 digitos.
+  password: /^.{6,12}$/, // 6 a 12 digitos.
   email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
   phone: /^\d{7,14}$/ // 7 a 14 numeros.
 }
@@ -44,7 +42,8 @@ const fields = {
   Email: false,
   Password: false,
   ConPassword: false,
-  Phone: false
+  Phone: false,
+  Birthday: false
 }
 
 //Variables de firestore
@@ -58,6 +57,7 @@ function register() {
   var email = $$('#rEmail').val();
   var password = $$('#rPassword').val();
   var phone = $$('#rPhone').val();
+  var birthday = $$('#rBirthday').val();
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -68,7 +68,7 @@ function register() {
 
       firebase.auth().currentUser.sendEmailVerification()
         .then(() => {
-          passOfCollection = email;
+          passOfCollection = firebase.auth().currentUser.uid;
 
           data = {
             rol: "User",
@@ -76,11 +76,13 @@ function register() {
             surname: surname,
             email: email,
             password: password,
-            phone: phone
+            phone: phone,
+            birthday: birthday
           }
 
           colUser.doc(passOfCollection).set(data)
             .then(() => {
+              emailVerification();
               console.log("Document successfully written!");
             })
             .catch((error) => {
@@ -103,8 +105,9 @@ function register() {
           fields.ConPassword = false;
           fields.Email = false;
           fields.Phone = false;
+          fields.Birthday = false;
 
-          mainView.router.navigate('/registerTemp/');
+          mainView.router.navigate('/pagPrin/');
           // // Email verification sent!
           // // ...
         });
@@ -134,15 +137,13 @@ function login() {
   var email = $$('#lEmail').val();
   var password = $$('#lPassword').val();
 
-  console.log(email, password);
-
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // Signed in
       var user = userCredential.user;
 
       $$('#form-message-error-login').removeClass('is-active');
-      mainView.router.navigate('/loginTemp/');
+      mainView.router.navigate('/pagPrin/');
       // ...
     })
     .catch((error) => {
@@ -195,8 +196,48 @@ function formValidation(e) {
   else if (e.target.name == 'ConPassword') {
     passwordValidation();
   }
+  else if (e.target.name == 'Birthday') {
+    howOldAreYou(e.target.value);
+  }
   else {
     fieldValidation(expression.phone, e.target, 'Phone');
+  }
+}
+
+//Función para calcular la mayoria de edad (a medias)
+function howOldAreYou(input) {
+  var date = new Date();
+  var today = date.getFullYear();
+
+  var year = new Date(input).getFullYear();
+  var age = today - year;
+
+  if (age <= 70 && age >= 18) {
+    $$('#gBirthday').removeClass('group-incorrect');
+    $$('#gBirthday').addClass('group-correct');
+
+    $$('#gBirthday > i').removeClass('fa-regular fa-circle-xmark');
+    $$('#gBirthday > i').addClass('fa-solid fa-check');
+
+    $$('#form-error-Birthday').removeClass('is-active');
+
+    fields['Birthday'] = true;
+  } else if (input === '') {
+    $$('#gBirthday').removeClass('group-correct');
+    $$('#gBirthday').removeClass('group-incorrect');
+    $$('#form-error-Birthday').removeClass('is-active');
+
+    fields['Birthday'] = false;
+  } else {
+    $$('#gBirthday').removeClass('group-correct');
+    $$('#gBirthday').addClass('group-incorrect');
+
+    $$('#gBirthday > i').removeClass('fa-solid fa-check');
+    $$('#gBirthday > i').addClass('fa-regular fa-circle-xmark');
+
+    $$('#form-error-Birthday').addClass('is-active');
+
+    fields['Birthday'] = false;
   }
 }
 
@@ -281,17 +322,84 @@ function tabs(panelIndex) {
   if (panelIndex === 0) {
     $$('.profile.tabShow').addClass('is-active').siblings().removeClass('is-active');
   }
-  else if (panelIndex === 1) {
-    $$('.payment.tabShow').addClass('is-active').siblings().removeClass('is-active');
-  }
-  else if (panelIndex === 2) {
-    $$('.subscription.tabShow').addClass('is-active').siblings().removeClass('is-active');
-  }
-  else if (panelIndex === 3) {
-    $$('.privacy.tabShow').addClass('is-active').siblings().removeClass('is-active');
-  }
   else {
-    $$('.settings.tabShow').addClass('is-active').siblings().removeClass('is-active');
+    $$('.security.tabShow').addClass('is-active').siblings().removeClass('is-active');
+  }
+}
+
+function securityChange(panelIndex) {
+  var user = firebase.auth().currentUser;
+  var docRef = db.collection('Users').doc(user.uid);
+  var password = false;
+
+  if (panelIndex === 0) {
+    password = true;
+  } else {
+    password = false;
+  }
+
+  if (password) {
+    var newPassword = $$('#pPassword').val();
+
+    if (expression.password.test(newPassword)) {
+      user.updatePassword(newPassword).then(() => {
+        // Update successful.
+        return docRef.update({
+          password: newPassword
+        })
+          .then(() => {
+            console.log("Document successfully updated!");
+          })
+          .catch((error) => {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+          });
+      }).catch((error) => {
+        // An error ocurred
+        // ...
+      });
+
+      alert('Contraseña cambiada con éxito');
+      $$('#btn-cEmail').css('display', 'block');
+      $$('#btn-cPassword').css('display', 'block');
+
+      $$('#btn-pSecurity-password').css('display', 'none');
+      $$('#pPassword').prop('disabled', true);
+    } else {
+      alert('Contraseña invalida');
+      $$('#pPassword').val('');
+    }
+  } else {
+    var newEmail = $$('#pEmail').val();
+
+    if (expression.email.test(newEmail)) {
+      user.updateEmail(newEmail).then(() => {
+        // Update successful.
+        return docRef.update({
+          email: newEmail
+        })
+          .then(() => {
+            console.log("Document successfully updated!");
+          })
+          .catch((error) => {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+          });
+      }).catch((error) => {
+        // An error ocurred
+        // ...
+      });
+
+      alert('Email cambiado con éxito');
+      $$('#btn-cEmail').css('display', 'block');
+      $$('#btn-cPassword').css('display', 'block');
+
+      $$('#btn-pSecurity-email').css('display', 'none');
+      $$('#pEmail').prop('disabled', true);
+    } else {
+      alert('Email invalido');
+      $$('#pEmail').val('');
+    }
   }
 }
 
@@ -314,14 +422,19 @@ $$(document).on('page:init', function (e) {
       $$('#profile').on('click', menuToggle);
 
       var user = firebase.auth().currentUser;
-      var docRef = db.collection('Users').doc(user.email);
+      var docRef = db.collection('Users').doc(user.uid);
 
       docRef.get()
         .then((doc) => {
           if (doc.exists) {
-            $$('.menu-acc h3').html(doc.data().surname + ' ' + doc.data().name);
-            $$('#pFullName').val(doc.data().surname + ' ' + doc.data().name);
+            $$('.menu-acc h3').html(doc.data().name + ' ' + doc.data().surname);
+
+            //Info Personal
+            $$('#pFullName').val(doc.data().name + ' ' + doc.data().surname);
             $$('#pPhone').val(doc.data().phone);
+            $$('#pBirthday').val(doc.data().birthday);
+
+            //Info de seguridad
             $$('#pEmail').val(doc.data().email);
             $$('#pPassword').val(doc.data().password);
           } else {
@@ -345,13 +458,15 @@ $$(document).on('page:init', function (e) {
 })
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
+  $$('#rBirthday').innerHtml = "";
+
   $$('input').on('keyup', formValidation);
   $$('input').on('blur', formValidation);
 
   $$('#rButton').on('click', function (e) {
     e.preventDefault();
 
-    if (fields.Name && fields.Surname && fields.Password && fields.ConPassword && fields.Email && fields.Phone) {
+    if (fields.Name && fields.Surname && fields.Password && fields.ConPassword && fields.Email && fields.Phone && fields.Birthday) {
       register();
     } else {
       $$('#rForm input').val('');
@@ -369,6 +484,7 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
       fields.ConPassword = false;
       fields.Email = false;
       fields.Phone = false;
+      fields.Birthday = false;
     }
   });
 })
@@ -380,15 +496,31 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
   });
 })
 
-$$(document).on('page:init', '.page[data-name="registerTemp"', function (e) {
-  $$('#rTempIS').on('click', emailVerification);
-})
-
 $$(document).on('page:init', '.page[data-name="profile"', function (e) {
   tabs(0);
 
   $$('.tab').on('click', function () {
     $$(this).addClass('active').siblings().removeClass('active');
+  })
+
+  $$('#btn-cPassword').on('click', function () {
+    $$('#pPassword').prop('disabled', false);
+    $$('#pPassword').attr('placeholder', 'inserte nueva contraseña');
+    $$('#btn-pSecurity-password').css('display', 'block');
+    $$('#pPassword').val('');
+
+    $$('#btn-cEmail').css('display', 'none');
+    $$('#btn-cPassword').css('display', 'none');
+  })
+
+  $$('#btn-cEmail').on('click', function () {
+    $$('#pEmail').prop('disabled', false);
+    $$('#pEmail').attr('placeholder', 'inserte nuevo email');
+    $$('#btn-pSecurity-email').css('display', 'block');
+    $$('#pEmail').val('');
+
+    $$('#btn-cEmail').css('display', 'none');
+    $$('#btn-cPassword').css('display', 'none');
   })
 })
 

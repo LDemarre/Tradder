@@ -15,35 +15,45 @@
         </div>
     </nav>
 
-    <!-- Toolbar -->
-    <div class="toolbar toolbar-bottom">
-        <div class="toolbar-inner">
-            <!-- Toolbar links -->
-            <a href="#" class="link">Link 1</a>
-            <a href="#" class="link">Link 2</a>
-        </div>
-    </div>
+    <div class="page-content">
+        <div id="bLogin">
+            <div id="rForm">
+                <form class="rForm" method="post">
+                    <h1 class="rTitle">Iniciar Sesión</h1>
+                    <div class="group">
+                        <input type="text" name="lEmail" id="lEmail" required><span class="barra"></span>
+                        <label>Email</label>
+                    </div>
+                    <div class="group">
+                        <input type="password" name="lPassword" id="lPassword" required><span class="barra"></span>
+                        <label>Contraseña</label>
+                    </div>
 
-    <div class="page-content" id="bLogin">
-        <div id="rForm">
-            <div class="rForm">
-                <h1 class="rTitle">Iniciar Sesión</h1>
-                <div class="group">
-                    <input type="text" name="lEmail" id="lEmail" required><span class="barra"></span>
-                    <label>Email</label>
-                </div>
-                <div class="group">
-                    <input type="password" name="lPassword" id="lPassword" required><span class="barra"></span>
-                    <label>Contraseña</label>
-                </div>
+                    <button id="lButton" class="button no-ripple">Iniciar Sesión</button>
 
-                <button id="lButton" class="button no-ripple">Iniciar Sesión</button>
-
-                <div class="group" id="form-message-error-login">
-                    <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
-                    <span>El email no está registrado</span>
-                </div>
+                    <div class="group" id="form-message-error-login">
+                        <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
+                        <span>El email no está registrado</span>
+                    </div>
+                </form>
             </div>
         </div>
+        <footer id="footer">
+            <img src="img/xd.png" class="logo">
+            <div class="social-icons-container">
+                <a href="#"><img src="img/ICON_FB.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_IG.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_TW.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_YT.png" class="social-icon"></a>
+            </div>
+            <ul class="footer-menu-container">
+                <li class="menu-item">Legal</li>
+                <li class="menu-item">Cookies</li>
+                <li class="menu-item">Privacy</li>
+                <li class="menu-item">Shipping</li>
+                <li class="menu-item">Refounds</li>
+            </ul>
+            <span class="copyright">&copy;2021, Tradder. All rights reserved.</span>
+        </footer>
     </div>
 </div>
