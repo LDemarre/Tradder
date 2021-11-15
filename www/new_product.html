@@ -1,0 +1,157 @@
+<!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
+<div class="page" data-name="new_product">
+    <!-- Top Navbar -->
+    <nav class="navbarB">
+        <div class="mobile-nav">
+            <div class="container">
+                <a class="tNavbar" href="/pagPrin/">Tradder</a>
+                <div class="action" id="myAcc">
+                    <div class="profile" id="profile">
+                        <img src="img/user.png">
+                    </div>
+                    <div class="menu-acc">
+                        <ul>
+                            <h3></h3>
+                            <li><img src="img/editing.png"><a href="/profile/">Editar Perfil</a></li>
+                            <li><img src="img/help.png"><a href="#">Ayuda</a></li>
+                            <li><img src="img/logout.png"><a href="/pagPrin/" id="signOut">Desconectar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="navbarA">
+        <div class="container">
+            <a class="tNavbar" href="/pagPrin/">Tradder</a>
+            <div class="menu">
+                <div class="action" id="myAcc">
+                    <div class="profile" id="profile">
+                        <img src="img/user.png">
+                    </div>
+                    <div class="menu-acc">
+                        <ul>
+                            <h3></h3>
+                            <li><img src="img/editing.png"><a href="/profile/">Editar Perfil</a></li>
+                            <li><img src="img/help.png"><a href="#">Ayuda</a></li>
+                            <li><img src="img/logout.png"><a href="/pagPrin/" id="signOut">Desconectar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <div class="form">
+            <div class="form_body">
+                <form class="rForm" method="post">
+                    <h1 class="rTitle">Publicar producto</h1>
+                    <div class="group" id="gName">
+                        <input autocomplete="off" type="text" name="Name" id="name" required><span class="barra"></span>
+                        <label>Nombre del producto</label>
+                        <i class="form-val-status fa-regular fa-circle-xmark" id="iName"></i>
+                        <p class="form-input-error" id="form-error-Name">El usuario tiene que ser de 4 a 6 dígitos y
+                            sólo
+                            puede contener numeros,
+                            letras y guión bajo.</p>
+                    </div>
+                    <div class="group" id="pPhoto">
+                        <div class="container-photo">
+                            <div class="wrapper">
+                                <div class="image">
+                                    <img src="" alt="">
+                                </div>
+                                <div class="content-photo">
+                                    <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                    <div class="text">No se eligió una imagen aún!</div>
+                                </div>
+                                <div id="cancel-btn"><i class="fas fa-times"></i></div>
+                                <div class="file-name">Nombre de la imagen aquí</div>
+                            </div>
+                            <input autocomplete="off" type="file" id="default-btn" name="Photo" id="photo" required>
+                            <button class="button_form no-ripple" id="custom-btn" onclick="defaultBtnActive()"
+                                form="">Elegir una imagen</button>
+                        </div>
+                    </div>
+                    <div class="group" id="gCategory">
+                        <div class="container-category">
+                            <h2>Categoría</h2>
+
+                            <div class="select-box">
+                                <div class="options-container">
+                                    <div class="option">
+                                        <label for="metal">Metal</label>
+                                    </div>
+                                    <div class="option">
+                                        <label for="glass">Vidrio</label>
+                                    </div>
+                                    <div class="option">
+                                        <label for="cardboard">Cartón</label>
+                                    </div>
+                                    <div class="option">
+                                        <label for="wood">Madera</label>
+                                    </div>
+                                    <div class="option">
+                                        <label for="reusable">Reutilizable</label>
+                                    </div>
+                                    <div class="option">
+                                        <label for="biodegradable">Biodegradable</label>
+                                    </div>
+                                </div>
+
+                                <div class="selected">
+                                    Seleccionar Categoría
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <input autocomplete="off" type="text" name="Email" id="rEmail" required><span
+                            class="barra"></span>
+                        <label>Categoría</label>
+                        <i class="form-val-status fa-regular fa-circle-xmark" id="iEmail"></i>
+                        <p class="form-input-error" id="form-error-Email">El correo sólo puede contener letras, números,
+                            puntos, guiones y guión
+                            bajo.</p> -->
+                    </div>
+                    <div class="group" id="gPassword">
+                        <textarea autocomplete="off" name="Password" id="rPassword" rows="10" cols="50"
+                            required></textarea>
+                        <span class="barra"></span>
+                        <label>Descripción</label>
+                        <i class="form-val-status fa-regular fa-circle-xmark" id="iPassword"></i>
+                        <p class="form-input-error" id="form-error-Password">La contraseña tiene que ser de 6 a 12
+                            dígitos.
+                        </p>
+                    </div>
+
+                    <button id="new_pButton" class="button_form no-ripple">Publicar</button>
+
+                    <div class="group" id="form-message-error">
+                        <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
+                        <span> Rellena el formulario correctamente.</span>
+                    </div>
+                    <div class="group" id="form-message-exito">
+                        <span> Formulario rellenado correctamente.</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <footer>
+            <img src="img/xd.png" class="logo">
+            <div class="social-icons-container">
+                <a href="#"><img src="img/ICON_FB.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_IG.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_TW.png" class="social-icon"></a>
+                <a href="#"><img src="img/ICON_YT.png" class="social-icon"></a>
+            </div>
+            <ul class="footer-menu-container">
+                <li class="menu-item">Legal</li>
+                <li class="menu-item">Cookies</li>
+                <li class="menu-item">Privacy</li>
+                <li class="menu-item">Shipping</li>
+                <li class="menu-item">Refounds</li>
+            </ul>
+            <span class="copyright">&copy;2021, Tradder. All rights reserved.</span>
+        </footer>
+    </div>

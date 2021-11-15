@@ -16,20 +16,22 @@
     </nav>
 
     <div class="page-content">
-        <div id="bLogin">
-            <div id="rForm">
+        <div class="form">
+            <div class="form_body">
                 <form class="rForm" method="post">
                     <h1 class="rTitle">Iniciar Sesión</h1>
                     <div class="group">
-                        <input type="text" name="lEmail" id="lEmail" required><span class="barra"></span>
+                        <input autocomplete="off" type="text" name="lEmail" id="lEmail" required><span
+                            class="barra"></span>
                         <label>Email</label>
                     </div>
                     <div class="group">
-                        <input type="password" name="lPassword" id="lPassword" required><span class="barra"></span>
+                        <input autocomplete="off" type="password" name="lPassword" id="lPassword" required><span
+                            class="barra"></span>
                         <label>Contraseña</label>
                     </div>
 
-                    <button id="lButton" class="button no-ripple">Iniciar Sesión</button>
+                    <button id="lButton" class="button_form no-ripple">Iniciar Sesión</button>
 
                     <div class="group" id="form-message-error-login">
                         <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
@@ -38,6 +40,7 @@
                 </form>
             </div>
         </div>
+
         <footer id="footer">
             <img src="img/xd.png" class="logo">
             <div class="social-icons-container">

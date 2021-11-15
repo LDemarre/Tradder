@@ -16,7 +16,7 @@
   display: none;
 }
 
-input {
+input, textarea {
   font-family: 'Roboto', sans-serif !important;
 }
 
@@ -139,6 +139,7 @@ nav {
   font-weight: 900;
   letter-spacing: 5px;
   text-transform: uppercase;
+  text-shadow: 0.1em 0.1em 0.05em var(--bProfile2);
 }
 
 .hamburger {
@@ -217,7 +218,7 @@ nav {
 }
 
 /* Formulario de registro e ingreso */
-#bRegistro, #bLogin, #loginTemp, #registerTemp {
+.form {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -230,7 +231,7 @@ nav {
   font-weight: 700;
 }
 
-#rForm, #lForm {
+.form_body {
   background: var(--white);;
   padding: 1rem 0;
   border-radius: 10px;
@@ -248,7 +249,7 @@ nav {
   margin: 2.5rem;
 }
 
-.rForm input {
+.rForm input, .rForm textarea {
   background: none;
   color: #c6c6c6;
   font-size: 20px;
@@ -266,7 +267,7 @@ input[type=date]:focus::-webkit-datetime-edit {
   color: #c6c6c6 !important;
 }
 
-.rForm input:focus {
+.rForm input:focus, .rForm textarea:focus {
   outline: none;
   color: #5e5b5d;
 }
@@ -283,7 +284,9 @@ label {
 }
 
 .rForm input:focus~label,
-.rForm input:valid~label {
+.rForm input:valid~label,
+.rForm textarea:focus~label,
+.rForm textarea:valid~label {
   top: -14px;
   font-size: 12px;
   color: #2196f3;
@@ -306,11 +309,12 @@ label {
   transition: 0.3s ease width;
 }
 
-.rForm input:focus~.barra::before {
+.rForm input:focus~.barra::before,
+.rForm textarea:focus~.barra::before {
   width: 100%;
 }
 
-#rButton, #lButton {
+.button_form {
   font-family: 'Montserrat', sans-serif;
   background: var(--gradiant);
   border: none;
@@ -326,7 +330,7 @@ label {
   transition: all 0.25s;
 }
 
-#rButton:hover, #lButton:hover {
+.button_form:hover {
   transform: translateY(3px);
   box-shadow: 0px 20px 5px -15px #0000004d;
 }
@@ -681,9 +685,224 @@ footer {
   text-align: center;
 }
 
+/* Nuevo producto */
+#pPhoto {
+  margin-bottom: 70px;
+}
+
+.container-photo {
+  height: 350px;
+  width: 430px;
+  margin: 0 auto;
+}
+
+.container-photo .wrapper {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  border-radius: 10px;
+  background-color: var(--white);
+  border: 2px dashed #7c7878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.wrapper.active {
+  border: none;
+}
+
+.wrapper.active:hover #cancel-btn {
+  display: block;
+}
+
+.wrapper #cancel-btn:hover {
+  color: red;
+}
+
+.wrapper .image {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper .image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.wrapper .icon {
+  text-align: center;
+  font-size: 100px;
+  color: #9658fe; 
+}
+
+.wrapper .text {
+  font-size: 20px;
+  color: #5b5b7b;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.wrapper #cancel-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--dark);
+  display: none;
+}
+
+.wrapper .file-name {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: var(--white);
+  padding: 8px 0;
+  font-size: 18px;
+  background: var(--gradiant);
+  display: none;
+}
+
+.wrapper.active:hover .file-name {
+  display: block;
+}
+
+.container-photo #default-btn {
+  display: none;
+}
+
+.container-photo #custom-btn {
+  margin-top: 15px;
+  width: 100%;
+  height: 50px;
+  display: block;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: var(--gradiant);
+  font-family: 'Roboto', sans-serif;
+}
+
+.container-category h2 {
+  font-family: 'Roboto', sans-serif;
+  color: #7c7878;
+  font-size: 16px;
+  font-weight: 100;
+  padding: 8px 8px 4px 4px;
+}
+
+.select-box {
+  display: flex;
+  width: 400px;
+  flex-direction: column;
+}
+
+.select-box .options-container {
+  position: absolute;
+  top: 100px;
+  background: var(--dark);
+  color: #f5f6fa;
+  max-height: 0;
+  width: 75%;
+  opacity: 0;
+  transition: all 0.4s;
+  border-radius: 8px;
+  overflow: hidden;
+  order: 1;
+  z-index: 100;
+}
+
+.select-box .option label {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.selected {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  background: var(--gradiant);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  color: #f5f6fa;
+  position: relative;
+  order: 0;
+}
+
+.selected::after {
+  content: '';
+  background: url("../img/arrow-down.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  height: 100%;
+  width: 20px;
+  right: 15px;
+  top: 14px;
+  transition: all 0.4s;
+}
+
+.select-box .options-container.active {
+  max-height: 300px;
+  opacity: 1;
+  overflow-y: scroll;
+}
+
+.select-box .options-container.active + .selected::after {
+  transform: rotateX(180deg);
+  top: -12px;
+}
+
+
+.select-box .options-container::-webkit-scrollbar{
+  display: none;
+  width: 8px;
+  background: #0d141f;
+  border-radius: 0 8px 8px 0;
+}
+
+.select-box .options-container::-webkit-scrollbar-thumb {
+  background: #525861;
+  border-radius: 0 8px 8px 0;
+}
+
+.select-box .option,
+.selected {
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.select-box .option:hover {
+  background: #593e85;
+}
+
+#gCategory .select-box label {
+  color: var(--light);
+  font-size: 15px;
+  cursor: pointer;
+  position: relative;
+  top: 0;
+}
+
+.select-box .option .radio {
+  display: none;
+}
+
+
 /* Responsive design */
 @media screen and (max-width:500px) {
-  #rForm, #lForm {
+  .form_body {
     width: 80%;
   }
 }

@@ -1,7 +1,3 @@
-// const { keyup } = require("dom7");
-
-// const { name } = require("file-loader");
-
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
 
@@ -22,6 +18,7 @@ var app = new Framework7({
     { path: '/register/', url: 'register.html', },
     { path: '/login/', url: 'login.html' },
     { path: '/profile/', url: 'profile.html' },
+    { path: '/nProduct/', url: 'new_product.html' },
   ]
   // ... other parameters
 });
@@ -89,7 +86,7 @@ function register() {
               console.error("Error writing document: ", error);
             });
 
-          $$('#rForm input').val('');
+          $$('.form_body input').val('');
 
           $$('#form-message-error').removeClass('is-active');
           $$('#form-message-exito').addClass('is-active');
@@ -97,7 +94,7 @@ function register() {
             $$('#form-message-exito').removeClass('is-active');
           }, 5000);
 
-          $$('#rForm .group.group-correct').removeClass('group-correct');
+          $$('.form_body .group.group-correct').removeClass('group-correct');
 
           fields.Name = false;
           fields.Surname = false;
@@ -121,9 +118,9 @@ function register() {
       console.log(error.message);
 
       if (errorCode == 'auth/email-already-in-use') {
-        $$('#rForm input').val('');
-        $$('#rForm .group').removeClass('group-incorrect');
-        $$('#rForm .group').removeClass('group-correct');
+        $$('.form_body input').val('');
+        $$('.form_body .group').removeClass('group-incorrect');
+        $$('.form_body .group').removeClass('group-correct');
         $$('#gEmail > i').removeClass('fa-solid fa-check');
         $$('#gEmail > i').removeClass('fa-regular fa-circle-xmark');
         $$('#form-message-error').addClass('is-active');
@@ -469,8 +466,8 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
     if (fields.Name && fields.Surname && fields.Password && fields.ConPassword && fields.Email && fields.Phone && fields.Birthday) {
       register();
     } else {
-      $$('#rForm input').val('');
-      $$('#rForm .group').addClass('group-incorrect');
+      $$('.form_body input').val('');
+      $$('.form_body .group').addClass('group-incorrect');
 
       $$('.form-val-status').removeClass('fa-solid fa-check');
       $$('.form-val-status').addClass('fa-regular fa-circle-xmark');
@@ -496,7 +493,7 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
   });
 })
 
-$$(document).on('page:init', '.page[data-name="profile"', function (e) {
+$$(document).on('page:init', '.page[data-name="profile"]', function (e) {
   tabs(0);
 
   $$('.tab').on('click', function () {
@@ -523,6 +520,71 @@ $$(document).on('page:init', '.page[data-name="profile"', function (e) {
     $$('#btn-cPassword').css('display', 'none');
   })
 })
+
+$$(document).on('page:init', '.page[data-name="new_product"]', function (e) {
+  var img = $$('.image img');
+
+  img.on('error', function (e) {
+    $$(e.target).css("display", "none");
+  });
+
+  optionListCategory();
+})
+
+// Función para desplegar la lista de categorias
+function optionListCategory() {
+  var selected = $$('.selected');
+  var optionsContainer = $$('.options-container');
+  var optionsList = $$('.option');
+
+  selected.on('click', function () {
+    optionsContainer.toggleClass('active');
+  })
+
+  optionsList.forEach(function (item, index) {
+    $$(item).on('click', function () {
+      selected.html($$(item).children('label').html());
+      optionsContainer.removeClass('active');
+    })
+  })
+}
+
+// Función para poner una imagen y agregar su nombre en el recuadro
+function defaultBtnActive() {
+  var wrapper = $$('.wrapper');
+  var fileName = $$('.file-name');
+  var cancelBtn = $$('#cancel-btn');
+  var defaultBtn = $$('#default-btn');
+  var customBtn = $$('#custom-btn');
+  var img = $$('.image img');
+
+  var regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+
+  defaultBtn.click();
+  defaultBtn.on('change', function () {
+    var file = this.files[0];
+
+    if (file) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        var result = reader.result;
+        img.attr('src', result);
+        wrapper.addClass('active');
+        img.css("display", "block");
+      }
+      cancelBtn.on('click', function () {
+        img.attr('src', '');
+        wrapper.removeClass('active');
+      })
+      reader.readAsDataURL(file);
+    }
+
+    if (this.value) {
+      var valueStore = this.value.match(regExp);
+      fileName.html(valueStore);
+    }
+  })
+}
 
 //slider
 $$('#preNext').click(function () {

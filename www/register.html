@@ -16,12 +16,12 @@
     </nav>
 
     <div class="page-content">
-        <div id="bRegistro">
-            <div id="rForm">
+        <div class="form">
+            <div class="form_body">
                 <form class="rForm" method="post">
                     <h1 class="rTitle">Registro</h1>
                     <div class="group" id="gName">
-                        <input type="text" name="Name" id="name" required><span class="barra"></span>
+                        <input autocomplete="off" type="text" name="Name" id="name" required><span class="barra"></span>
                         <label>Nombre</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iName"></i>
                         <p class="form-input-error" id="form-error-Name">El usuario tiene que ser de 4 a 6 dígitos y
@@ -30,7 +30,8 @@
                             letras y guión bajo.</p>
                     </div>
                     <div class="group" id="gSurname">
-                        <input type="text" name="Surname" id="surname" required><span class="barra"></span>
+                        <input autocomplete="off" type="text" name="Surname" id="surname" required><span
+                            class="barra"></span>
                         <label>Apellido</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iSurname"></i>
                         <p class="form-input-error" id="form-error-Surname">El usuario tiene que ser de 4 a 6 dígitos y
@@ -39,7 +40,8 @@
                             letras y guión bajo.</p>
                     </div>
                     <div class="group" id="gEmail">
-                        <input type="text" name="Email" id="rEmail" required><span class="barra"></span>
+                        <input autocomplete="off" type="text" name="Email" id="rEmail" required><span
+                            class="barra"></span>
                         <label>Email</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iEmail"></i>
                         <p class="form-input-error" id="form-error-Email">El correo sólo puede contener letras, números,
@@ -47,7 +49,8 @@
                             bajo.</p>
                     </div>
                     <div class="group" id="gPassword">
-                        <input type="password" name="Password" id="rPassword" required><span class="barra"></span>
+                        <input autocomplete="off" type="password" name="Password" id="rPassword" required><span
+                            class="barra"></span>
                         <label>Contraseña</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iPassword"></i>
                         <p class="form-input-error" id="form-error-Password">La contraseña tiene que ser de 6 a 12
@@ -55,14 +58,16 @@
                         </p>
                     </div>
                     <div class="group" id="gConPassword">
-                        <input type="password" name="ConPassword" id="rConPassword" required><span class="barra"></span>
+                        <input autocomplete="off" type="password" name="ConPassword" id="rConPassword" required><span
+                            class="barra"></span>
                         <label>Confirmar Contraseña</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iConPassword"></i>
                         <p class="form-input-error" id="form-error-ConPassword">Ambas contraseñas tiene que ser iguales.
                         </p>
                     </div>
                     <div class="group" id="gPhone">
-                        <input type="tel" name="Phone" id="rPhone" required><span class="barra"></span>
+                        <input autocomplete="off" type="tel" name="Phone" id="rPhone" required><span
+                            class="barra"></span>
                         <label>Número de teléfono</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iPhone"></i>
                         <p class="form-input-error" id="form-error-Phone">El teléfono sólo puede contener números y el
@@ -70,14 +75,14 @@
                             son 14 dígitos.</p>
                     </div>
                     <div class="group" id="gBirthday">
-                        <input type="date" name="Birthday" id="rBirthday" placeholder="index" required><span
-                            class="barra"></span>
+                        <input autocomplete="off" type="date" name="Birthday" id="rBirthday" placeholder="index"
+                            required><span class="barra"></span>
                         <label>Día de nacimiento</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iBirthday"></i>
                         <p class="form-input-error" id="form-error-Birthday">Tienes que ser mayor de 18 años</p>
                     </div>
 
-                    <button id="rButton" class="button no-ripple">Registrarte</button>
+                    <button id="rButton" class="button_form no-ripple">Registrarte</button>
 
                     <div class="group" id="form-message-error">
                         <i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b>
