@@ -12,6 +12,7 @@
                     <div class="menu-acc">
                         <ul>
                             <h3></h3>
+                            <li><img src="img/donation.png"><a href="/nProduct/" id="donar">Donar</a></li>
                             <li><img src="img/editing.png"><a href="/profile/">Editar Perfil</a></li>
                             <li><img src="img/help.png"><a href="#">Ayuda</a></li>
                             <li><img src="img/logout.png"><a href="/pagPrin/" id="signOut">Desconectar</a></li>
@@ -26,6 +27,7 @@
         <div class="container">
             <a class="tNavbar" href="/pagPrin/">Tradder</a>
             <div class="menu">
+                <a href="/nProduct/" id="donar">Donar</a>
                 <div class="action" id="myAcc">
                     <div class="profile" id="profile">
                         <img src="img/user.png">
@@ -48,8 +50,9 @@
             <div class="form_body">
                 <form class="rForm" method="post">
                     <h1 class="rTitle">Publicar producto</h1>
-                    <div class="group" id="gName">
-                        <input autocomplete="off" type="text" name="Name" id="name" required><span class="barra"></span>
+                    <div class="group" id="pName">
+                        <input autocomplete="off" type="text" name="Name" id="nName" required><span
+                            class="barra"></span>
                         <label>Nombre del producto</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iName"></i>
                         <p class="form-input-error" id="form-error-Name">El usuario tiene que ser de 4 a 6 dígitos y
@@ -70,12 +73,12 @@
                                 <div id="cancel-btn"><i class="fas fa-times"></i></div>
                                 <div class="file-name">Nombre de la imagen aquí</div>
                             </div>
-                            <input autocomplete="off" type="file" id="default-btn" name="Photo" id="photo" required>
+                            <input autocomplete="off" type="file" id="default-btn" name="Photo" required>
                             <button class="button_form no-ripple" id="custom-btn" onclick="defaultBtnActive()"
                                 form="">Elegir una imagen</button>
                         </div>
                     </div>
-                    <div class="group" id="gCategory">
+                    <div class="group" id="pCategory">
                         <div class="container-category">
                             <h2>Categoría</h2>
 
@@ -106,21 +109,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <input autocomplete="off" type="text" name="Email" id="rEmail" required><span
-                            class="barra"></span>
-                        <label>Categoría</label>
-                        <i class="form-val-status fa-regular fa-circle-xmark" id="iEmail"></i>
-                        <p class="form-input-error" id="form-error-Email">El correo sólo puede contener letras, números,
-                            puntos, guiones y guión
-                            bajo.</p> -->
                     </div>
-                    <div class="group" id="gPassword">
-                        <textarea autocomplete="off" name="Password" id="rPassword" rows="10" cols="50"
+                    <div class="group" id="pDescription">
+                        <textarea autocomplete="off" name="Description" id="nDescription" rows="10" cols="50"
                             required></textarea>
                         <span class="barra"></span>
                         <label>Descripción</label>
-                        <i class="form-val-status fa-regular fa-circle-xmark" id="iPassword"></i>
-                        <p class="form-input-error" id="form-error-Password">La contraseña tiene que ser de 6 a 12
+                        <i class="form-val-status fa-regular fa-circle-xmark" id="iDescription"></i>
+                        <p class="form-input-error" id="form-error-Description">La contraseña tiene que ser de 6 a 12
                             dígitos.
                         </p>
                     </div>
@@ -138,7 +134,7 @@
             </div>
         </div>
         <footer>
-            <img src="img/xd.png" class="logo">
+            <img src="img/logo_tradder.png" class="logo">
             <div class="social-icons-container">
                 <a href="#"><img src="img/ICON_FB.png" class="social-icon"></a>
                 <a href="#"><img src="img/ICON_IG.png" class="social-icon"></a>

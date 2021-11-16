@@ -45,7 +45,9 @@ const fields = {
 
 //Variables de firestore
 var db = firebase.firestore();
+var storage = firebase.storage();
 var colUser = db.collection("Users");
+var colProduct = db.collection("Product");
 
 //Función de registro
 function register() {
@@ -315,6 +317,7 @@ function menuToggle() {
   toggleMenu.toggleClass('active');
 }
 
+//Función para activiar y desactivar los botones en mi perfil
 function tabs(panelIndex) {
   if (panelIndex === 0) {
     $$('.profile.tabShow').addClass('is-active').siblings().removeClass('is-active');
@@ -322,6 +325,68 @@ function tabs(panelIndex) {
   else {
     $$('.security.tabShow').addClass('is-active').siblings().removeClass('is-active');
   }
+}
+
+
+// Función para desplegar la lista de categorias
+function optionListCategory() {
+  var selected = $$('.selected');
+  var optionsContainer = $$('.options-container');
+  var optionsList = $$('.option');
+
+  selected.on('click', function () {
+    optionsContainer.toggleClass('active');
+  })
+
+  optionsList.forEach(function (item) {
+    $$(item).on('click', function () {
+      selected.html($$(item).children('label').html());
+      optionsContainer.removeClass('active');
+    })
+  })
+}
+
+// Función para poner una imagen y agregar su nombre en el recuadro
+function defaultBtnActive() {
+  var wrapper = $$('.wrapper');
+  var fileName = $$('.file-name');
+  var cancelBtn = $$('#cancel-btn');
+  var defaultBtn = $$('#default-btn');
+  var img = $$('.image img');
+
+  var regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+
+  defaultBtn.click();
+  defaultBtn.on('change', function () {
+    var file = this.files[0];
+    var storageRef = firebase.storage().ref();
+    var passOfCollection = firebase.auth().currentUser.uid;
+    var productPhotoRef = storageRef.child(passOfCollection);
+
+    productPhotoRef.put(file).then(function (snapshot) {
+      console.log('Uploaded a blob or file!');
+    });
+
+    if (file) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        var result = reader.result;
+        img.attr('src', result);
+        wrapper.addClass('active');
+        img.css("display", "block");
+      }
+      cancelBtn.on('click', function () {
+        img.attr('src', '');
+        wrapper.removeClass('active');
+      })
+      reader.readAsDataURL(file);
+    }
+
+    if (this.value) {
+      var valueStore = this.value.match(regExp);
+      fileName.html(valueStore);
+    }
+  })
 }
 
 function securityChange(panelIndex) {
@@ -414,14 +479,19 @@ $$(document).on('page:init', function (e) {
       $$('#signUp').css('display', 'none');
       $$('.hamburger.button.no-ripple').css('display', 'none');
       $$('#myAcc').css('display', 'block');
+      $$('#donar').css('display', 'block');
 
       $$('#signOut').on('click', signOut);
       $$('#profile').on('click', menuToggle);
 
       var user = firebase.auth().currentUser;
-      var docRef = db.collection('Users').doc(user.uid);
+      var docRefUser = colUser.doc(user.uid);
+      var docRefProduct = colProduct.doc(user.uid);
 
-      docRef.get()
+      var storageRef = firebase.storage().ref();
+      var passOfCollection = user.uid;
+
+      docRefUser.get()
         .then((doc) => {
           if (doc.exists) {
             $$('.menu-acc h3').html(doc.data().name + ' ' + doc.data().surname);
@@ -440,11 +510,45 @@ $$(document).on('page:init', function (e) {
         }).catch((error) => {
           console.log('Error getting document:', error);
         });
+
+      docRefProduct.get()
+        .then((doc) => {
+          if (doc.exists) {
+            $$('#pVName').html(doc.data().name);
+            $$('#pVCategory').html(doc.data().category);
+          } else {
+            console.log('No such document!');
+          }
+        }).catch((error) => {
+          console.log('Error getting document:', error);
+        });
+
+
+
+      storageRef.child(passOfCollection).getDownloadURL().then(function (url) {
+        // `url` is the download URL for 'images/stars.jpg'
+
+        // This can be downloaded directly:
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = function (event) {
+          var blob = xhr.response;
+        };
+        xhr.open('GET', url);
+        xhr.send();
+
+        // Or inserted into an <img> element:
+        var img = $$('#productOne');
+        img.attr('src', url);
+      }).catch(function (error) {
+        // Handle any errors
+      });
     } else {
       $$('#home').css('display', 'block');
       $$('#login').css('display', 'block');
       $$('#signUp').css('display', 'block');
       $$('#myAcc').css('display', 'none');
+      $$('#donar').css('display', 'none');
 
       $$('.hamburger.button.no-ripple').on('click', function () {
         $$('.hamburger.button.no-ripple').toggleClass('is-active');
@@ -522,6 +626,8 @@ $$(document).on('page:init', '.page[data-name="profile"]', function (e) {
 })
 
 $$(document).on('page:init', '.page[data-name="new_product"]', function (e) {
+  e.preventDefault();
+
   var img = $$('.image img');
 
   img.on('error', function (e) {
@@ -529,61 +635,36 @@ $$(document).on('page:init', '.page[data-name="new_product"]', function (e) {
   });
 
   optionListCategory();
+
+  $$('#new_pButton').on('click', function (e) {
+    e.preventDefault();
+
+    publishProduct();
+  });
 })
 
-// Función para desplegar la lista de categorias
-function optionListCategory() {
-  var selected = $$('.selected');
-  var optionsContainer = $$('.options-container');
-  var optionsList = $$('.option');
 
-  selected.on('click', function () {
-    optionsContainer.toggleClass('active');
-  })
+function publishProduct() {
+  var name = $$('#nName').val();
+  var category = $$('.selected').html();
+  var description = $$('#nDescription').val();
 
-  optionsList.forEach(function (item, index) {
-    $$(item).on('click', function () {
-      selected.html($$(item).children('label').html());
-      optionsContainer.removeClass('active');
+  passOfCollection = firebase.auth().currentUser.uid;
+
+  data = {
+    rol: "Product",
+    name: name,
+    category: category,
+    description: description
+  }
+
+  colProduct.doc(passOfCollection).set(data)
+    .then(() => {
+      console.log("Document successfully written!");
     })
-  })
-}
-
-// Función para poner una imagen y agregar su nombre en el recuadro
-function defaultBtnActive() {
-  var wrapper = $$('.wrapper');
-  var fileName = $$('.file-name');
-  var cancelBtn = $$('#cancel-btn');
-  var defaultBtn = $$('#default-btn');
-  var customBtn = $$('#custom-btn');
-  var img = $$('.image img');
-
-  var regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
-
-  defaultBtn.click();
-  defaultBtn.on('change', function () {
-    var file = this.files[0];
-
-    if (file) {
-      var reader = new FileReader();
-      reader.onload = function () {
-        var result = reader.result;
-        img.attr('src', result);
-        wrapper.addClass('active');
-        img.css("display", "block");
-      }
-      cancelBtn.on('click', function () {
-        img.attr('src', '');
-        wrapper.removeClass('active');
-      })
-      reader.readAsDataURL(file);
-    }
-
-    if (this.value) {
-      var valueStore = this.value.match(regExp);
-      fileName.html(valueStore);
-    }
-  })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
 }
 
 //slider

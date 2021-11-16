@@ -9,6 +9,9 @@
   --white: #fff;
   --bProfile: #311B92;
   --bProfile2: #7C4DFF;
+
+  --Roboto: 'Roboto', sans-serif;
+  --Montserrat: 'Montserrat', sans-serif;
 }
 
 /* Estilos generales */
@@ -17,7 +20,7 @@
 }
 
 input, textarea {
-  font-family: 'Roboto', sans-serif !important;
+  font-family: var(--Roboto) !important;
 }
 
 /* Inicio */
@@ -96,7 +99,7 @@ input, textarea {
 .products img {
   background-color: white;
   border-radius: 1rem;
-  width: 100%;
+  width: 150px;
 }
 
 #títuloPP {
@@ -133,7 +136,7 @@ nav {
 }
 
 .tNavbar {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   color: var(--white);;
   font-size: 28px;
   font-weight: 900;
@@ -198,7 +201,7 @@ nav {
 }
 
 .menu a, .menu-mobile a {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--Roboto);
   color: var(--white);
   margin: 0 16px;
   font-size: 18px;
@@ -217,6 +220,10 @@ nav {
   display: none;
 }
 
+#donar {
+  margin: 8px 16px;
+}
+
 /* Formulario de registro e ingreso */
 .form {
   display: flex;
@@ -226,7 +233,7 @@ nav {
 }
 
 .rTitle {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   text-align: center;
   font-weight: 700;
 }
@@ -263,7 +270,7 @@ input[type=date]:required:invalid::-webkit-datetime-edit {
   color: transparent;
 }
 input[type=date]:focus::-webkit-datetime-edit {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--Roboto);
   color: #c6c6c6 !important;
 }
 
@@ -273,7 +280,7 @@ input[type=date]:focus::-webkit-datetime-edit {
 }
 
 label {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--Roboto);
   color: #7c7878;
   font-size: 16px;
   position: absolute;
@@ -315,7 +322,7 @@ label {
 }
 
 .button_form {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   background: var(--gradiant);
   border: none;
   display: block;
@@ -446,7 +453,7 @@ label {
 }
 
 .action .menu-acc h3 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   width: 100%;
   text-align: center;
   font-size: 18px;
@@ -479,7 +486,7 @@ label {
 }
 
 .action .menu-acc ul li a {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   display: inline-block;
   text-decoration: none;
   color: #555;
@@ -552,7 +559,7 @@ label {
 }
 
 .container-profile h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   color: var(--bProfile2);
   font-size: 1.8rem;
   margin-top: 40px;
@@ -561,7 +568,7 @@ label {
 
 .container-profile h2 {
   color: #777;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--Roboto);
   text-transform: uppercase;
   font-size: 16px;
   letter-spacing: 1px;
@@ -572,7 +579,7 @@ label {
   border: 0;
   border-bottom: 1px solid #651FFF;
   width: 80%;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   font-size: 1.5em;
   padding: 7px 0;
   color: #070707;
@@ -609,7 +616,7 @@ label {
 
 .btn {
   width: 40%;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--Roboto);
   text-transform: uppercase;
   font-size: 20px;
   border: 0;
@@ -667,7 +674,7 @@ footer {
 }
 
 .menu-item {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   margin: 0 1.5rem;
   cursor: pointer;
   opacity: 0.6;
@@ -679,7 +686,7 @@ footer {
 }
 
 .copyright {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--Roboto);
   color: #f2f2f2;
   opacity: .3;
   text-align: center;
@@ -745,7 +752,7 @@ footer {
 .wrapper .text {
   font-size: 20px;
   color: #5b5b7b;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
 }
 
 .wrapper #cancel-btn {
@@ -793,11 +800,11 @@ footer {
   text-transform: uppercase;
   cursor: pointer;
   background: var(--gradiant);
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--Roboto);
 }
 
 .container-category h2 {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--Roboto);
   color: #7c7878;
   font-size: 16px;
   font-weight: 100;
@@ -826,11 +833,11 @@ footer {
 }
 
 .select-box .option label {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
 }
 
 .selected {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--Montserrat);
   font-size: 16px;
   background: var(--gradiant);
   border-radius: 8px;
@@ -887,7 +894,7 @@ footer {
   background: #593e85;
 }
 
-#gCategory .select-box label {
+#pCategory .select-box label {
   color: var(--light);
   font-size: 15px;
   cursor: pointer;
@@ -924,6 +931,10 @@ footer {
 
   .navbarB {
     display: block;
+  }
+
+  #donar {
+    margin: 15px 0px;
   }
 
   .menu-mobile {
