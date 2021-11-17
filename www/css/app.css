@@ -263,7 +263,7 @@ nav {
 .menu a, .menu-mobile a {
   font-family: var(--Roboto);
   color: var(--white);
-  margin: 0 16px;
+  margin: 0;
   font-size: 18px;
   font-weight: 600;
   text-decoration: none;
