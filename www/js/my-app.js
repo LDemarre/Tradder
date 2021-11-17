@@ -107,6 +107,8 @@ function register() {
           fields.Birthday = false;
 
           mainView.router.navigate('/pagPrin/');
+          logged = false;
+          isLogged = true;
           // // Email verification sent!
           // // ...
         });
@@ -143,6 +145,8 @@ function login() {
 
       $$('#form-message-error-login').removeClass('is-active');
       mainView.router.navigate('/pagPrin/');
+      logged = false;
+      isLogged = true;
       // ...
     })
     .catch((error) => {
@@ -171,6 +175,7 @@ function login() {
 function signOut() {
   firebase.auth().signOut()
     .then(() => {
+      mainView.router.navigate('/pagPrin/');
       mainView.router.refreshPage();
     }).catch((error) => {
       // An error happened.
@@ -308,6 +313,8 @@ function emailVerification() {
 
   if (user.emailVerified === true) {
     mainView.router.navigate('/pagPrin/');
+    logged = false;
+    isLogged = true;
   }
 }
 
@@ -346,6 +353,9 @@ function optionListCategory() {
   })
 }
 
+var storageRef = firebase.storage().ref();
+var photoURL;
+
 // Función para poner una imagen y agregar su nombre en el recuadro
 function defaultBtnActive() {
   var wrapper = $$('.wrapper');
@@ -359,14 +369,6 @@ function defaultBtnActive() {
   defaultBtn.click();
   defaultBtn.on('change', function () {
     var file = this.files[0];
-    var storageRef = firebase.storage().ref();
-    var passOfCollection = firebase.auth().currentUser.uid;
-    var productPhotoRef = storageRef.child(passOfCollection);
-
-    productPhotoRef.put(file).then(function (snapshot) {
-      console.log('Uploaded a blob or file!');
-    });
-
     if (file) {
       var reader = new FileReader();
       reader.onload = function () {
@@ -386,9 +388,25 @@ function defaultBtnActive() {
       var valueStore = this.value.match(regExp);
       fileName.html(valueStore);
     }
+
+    var productPhotoRef = storageRef.child(randomUID());
+
+    productPhotoRef.put(file).then(function (snapshot) {
+      console.log('Uploaded a blob or file!');
+
+      productPhotoRef.getDownloadURL().then(function (url) {
+        // `url` is the download URL for 'images/stars.jpg'
+        // Or inserted into an <img> element:
+        photoURL = url;
+      }).catch(function (error) {
+        // Handle any errors
+      });
+    });
+
   })
 }
 
+//Función para cambiar la contraseña
 function securityChange(panelIndex) {
   var user = firebase.auth().currentUser;
   var docRef = db.collection('Users').doc(user.uid);
@@ -465,6 +483,42 @@ function securityChange(panelIndex) {
   }
 }
 
+//Generar un numero aleatorio de muchos caracteres
+function randomUID() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+
+//Función para publicar un producto
+function publishProduct(photoURL) {
+  var name = $$('#nName').val();
+  var category = $$('.selected').html();
+  var description = $$('#nDescription').val();
+
+  userID = firebase.auth().currentUser.uid;
+
+  data = {
+    rol: "Product",
+    name: name,
+    category: category,
+    description: description,
+    userID: userID,
+    photoURL: photoURL
+  }
+
+  colProduct.doc(randomUID()).set(data)
+    .then(() => {
+      console.log("Document successfully written!");
+      mainView.router.navigate('/pagPrin/');
+      logged = false;
+      isLogged = true;
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
+}
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
   console.log("Device is ready!");
@@ -472,6 +526,12 @@ $$(document).on('deviceready', function () {
 
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init', function (e) {
+  $$('.tNavbar').on('click', function () {
+    mainView.router.navigate('/pagPrin/');
+    logged = false;
+    isLogged = true;
+  })
+
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       $$('#home').css('display', 'none');
@@ -486,10 +546,6 @@ $$(document).on('page:init', function (e) {
 
       var user = firebase.auth().currentUser;
       var docRefUser = colUser.doc(user.uid);
-      var docRefProduct = colProduct.doc(user.uid);
-
-      var storageRef = firebase.storage().ref();
-      var passOfCollection = user.uid;
 
       docRefUser.get()
         .then((doc) => {
@@ -510,39 +566,6 @@ $$(document).on('page:init', function (e) {
         }).catch((error) => {
           console.log('Error getting document:', error);
         });
-
-      docRefProduct.get()
-        .then((doc) => {
-          if (doc.exists) {
-            $$('#pVName').html(doc.data().name);
-            $$('#pVCategory').html(doc.data().category);
-          } else {
-            console.log('No such document!');
-          }
-        }).catch((error) => {
-          console.log('Error getting document:', error);
-        });
-
-
-
-      storageRef.child(passOfCollection).getDownloadURL().then(function (url) {
-        // `url` is the download URL for 'images/stars.jpg'
-
-        // This can be downloaded directly:
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = 'blob';
-        xhr.onload = function (event) {
-          var blob = xhr.response;
-        };
-        xhr.open('GET', url);
-        xhr.send();
-
-        // Or inserted into an <img> element:
-        var img = $$('#productOne');
-        img.attr('src', url);
-      }).catch(function (error) {
-        // Handle any errors
-      });
     } else {
       $$('#home').css('display', 'block');
       $$('#login').css('display', 'block');
@@ -558,9 +581,88 @@ $$(document).on('page:init', function (e) {
   });
 })
 
-$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
-  $$('#rBirthday').innerHtml = "";
+var logged = false;
+var isLogged = true;
 
+$$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      if (isLogged) {
+        colProduct.get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(
+              '<div class="card">' +
+              '<div class="imgBx">' +
+              '<img src="' + doc.data().photoURL + '">' +
+              '</div>' +
+              '<div class="content">' +
+              '<div class="productName">' +
+              '<h3>' + doc.data().name + '</h3>' +
+              '</div>' +
+              '<div class="category-rating">' +
+              '<h2>' + doc.data().category + '</h2>' +
+              '<div class="rating">' +
+              '<i class="fa fa-star"></i>' +
+              '<i class="fa fa-star"></i>' +
+              '<i class="fa fa-star"></i>' +
+              '<i class="fa fa-star"></i>' +
+              '<i class="fa fa-star"></i>' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '</div>'))
+          });
+        });
+
+        isLogged = !isLogged;
+
+        if (logged) {
+          logged = !logged;
+        }
+      }
+    } else {
+      if (!logged) {
+        colProduct.get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(
+              '<div class="card">' +
+              '<div class="imgBx">' +
+              '<img src="' + doc.data().photoURL + '">' +
+              '</div>' +
+              '<div class="content">' +
+              '<div class="productName">' +
+              '<h3>' + doc.data().name + '</h3>' +
+              '</div>' +
+              '<div class="category-rating">' +
+              '<h2>' + doc.data().category + '</h2>' +
+              '<div class="rating">' +
+              '<i class="fa fa-star"></i>' +
+              '<i class="fa fa-star"></i>' +
+              '<i class="fa fa-star"></i>' +
+              '<i class="fa fa-star"></i>' +
+              '<i class="fa fa-star"></i>' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '</div>'))
+          });
+        });
+
+        logged = !logged;
+
+        if (!isLogged) {
+          isLogged = !isLogged;
+        }
+      }
+    }
+  })
+})
+
+$$(document).on('page:init', '.page[data-name="registro"]', function (e) {
   $$('input').on('keyup', formValidation);
   $$('input').on('blur', formValidation);
 
@@ -629,7 +731,6 @@ $$(document).on('page:init', '.page[data-name="new_product"]', function (e) {
   e.preventDefault();
 
   var img = $$('.image img');
-
   img.on('error', function (e) {
     $$(e.target).css("display", "none");
   });
@@ -638,34 +739,9 @@ $$(document).on('page:init', '.page[data-name="new_product"]', function (e) {
 
   $$('#new_pButton').on('click', function (e) {
     e.preventDefault();
-
-    publishProduct();
+    publishProduct(photoURL);
   });
 })
-
-
-function publishProduct() {
-  var name = $$('#nName').val();
-  var category = $$('.selected').html();
-  var description = $$('#nDescription').val();
-
-  passOfCollection = firebase.auth().currentUser.uid;
-
-  data = {
-    rol: "Product",
-    name: name,
-    category: category,
-    description: description
-  }
-
-  colProduct.doc(passOfCollection).set(data)
-    .then(() => {
-      console.log("Document successfully written!");
-    })
-    .catch((error) => {
-      console.error("Error writing document: ", error);
-    });
-}
 
 //slider
 $$('#preNext').click(function () {

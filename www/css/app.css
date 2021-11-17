@@ -87,27 +87,87 @@ input, textarea {
   background: var(--gradiant);  /* fallback for old browsers */
 }
 
-.products {
-  margin: 0 1.5rem;
-  padding: 1rem;
-  border-radius: 1rem;
-  display: inline-block;
-  background-color: var(--elementColor);
+.page-products {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  min-height: 100vh; 
+}
+
+.container-card {
+  position: relative;
+  width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.container-card .card {
+  width: 100%;
+  background-color: var(--dark);
+  border-radius: 10px;
+  margin: 0;
+}
+
+.container-card .card .imgBx {
+  position: relative;
+  width: 100%;
+  height: 310px;
+  overflow: hidden;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.container-card .card .imgBx img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: .25s ease-in-out;
+  transform-origin: right;
+}
+
+.container-card .card:hover .imgBx img {
   cursor: pointer;
+  transform: scale(1.2);
 }
 
-.products img {
-  background-color: white;
-  border-radius: 1rem;
-  width: 150px;
+.container-card .card .content {
+  padding: 10px;
 }
 
-#títuloPP {
-  margin-left: 1rem;
+.container-card .card .content .productName h3 {
+  cursor: pointer;
+  font-family: var(--Montserrat);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--white);
+  margin: 5px 0;
 }
 
-#Pag_Principal {
-  margin: 2rem auto;
+.container-card .card .content .category-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-card .card .content .category-rating h2 {
+  font-size: 20px;
+  color: var(--bProfile2);
+  font-weight: 500;
+}
+
+.container-card .card .content .category-rating .fa {
+  color: #ffd513;
+  cursor: pointer;
+  letter-spacing: 5px;
+}
+
+.container-card .card .content .category-rating .fa.grey {
+  color: #ccc;
 }
 
 /* Navbar */
