@@ -19,6 +19,7 @@ var app = new Framework7({
     { path: '/login/', url: 'login.html' },
     { path: '/profile/', url: 'profile.html' },
     { path: '/nProduct/', url: 'new_product.html' },
+    { path: '/product/', url: 'product.html' },
   ]
   // ... other parameters
 });
@@ -368,31 +369,41 @@ function defaultBtnActive() {
 
   defaultBtn.click();
   defaultBtn.on('change', function () {
+    var progressArea = $$('.progress-area'),
+      uploadedArea = $$('.uploaded-area');
+
     var file = this.files[0];
-    if (file) {
-      var reader = new FileReader();
-      reader.onload = function () {
-        var result = reader.result;
-        img.attr('src', result);
-        wrapper.addClass('active');
-        img.css("display", "block");
-      }
-      cancelBtn.on('click', function () {
-        img.attr('src', '');
-        wrapper.removeClass('active');
-      })
-      reader.readAsDataURL(file);
-    }
-
-    if (this.value) {
-      var valueStore = this.value.match(regExp);
-      fileName.html(valueStore);
-    }
-
     var productPhotoRef = storageRef.child(randomUID());
 
     productPhotoRef.put(file).then(function (snapshot) {
       console.log('Uploaded a blob or file!');
+      if (file) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "php/upload.php");
+        xhr.upload.addEventListener('progress', ({ loaded, total }) => {
+          let fileLoaded = Math.floor((loaded / total) * 100);
+          let fileTotal = Math.floor(total / 1000);
+          console.log(fileLoaded, fileTotal);
+        })
+
+        var reader = new FileReader();
+        reader.onload = function () {
+          var result = reader.result;
+          img.attr('src', result);
+          wrapper.addClass('active');
+          img.css("display", "block");
+        }
+        cancelBtn.on('click', function () {
+          img.attr('src', '');
+          wrapper.removeClass('active');
+        })
+        reader.readAsDataURL(file);
+      }
+
+      if (this.value) {
+        var valueStore = this.value.match(regExp);
+        fileName.html(valueStore);
+      }
 
       productPhotoRef.getDownloadURL().then(function (url) {
         // `url` is the download URL for 'images/stars.jpg'
@@ -583,8 +594,24 @@ $$(document).on('page:init', function (e) {
 
 var logged = false;
 var isLogged = true;
+var docProduct;
 
 $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
+  $$('body').on('click', '.card img', function () {
+    colProduct.where("photoURL", "==", this.src)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          docProduct = doc.id;
+          mainView.router.navigate('/product/');
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  })
+
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       if (isLogged) {
@@ -660,6 +687,32 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
       }
     }
   })
+})
+
+$$(document).on('page:init', '.page[data-name="product"]', function (e) {
+  colProduct.doc(docProduct).get().then((doc) => {
+    if (doc.exists) {
+      console.log("Document data:", doc.data());
+
+      $$('.product-title').html(doc.data().name);
+      $$('.img-showcase img').attr('src', doc.data().photoURL);
+      $$('#pCategory').html(doc.data().category);
+      $$('.product-detail p').html(doc.data().description);
+
+      colUser.doc(doc.data().userID).get().then((doc) => {
+        console.log("Document data:", doc.data());
+
+        $$('.name-donor span').html(doc.data().name + ' ' + doc.data().surname);
+      }).catch((error) => {
+        console.log("No such document!");
+      })
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }).catch((error) => {
+    console.log("Error getting document:", error);
+  });
 })
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {

@@ -5,6 +5,12 @@
         <div class="mobile-nav">
             <div class="container">
                 <a class="tNavbar">Tradder</a>
+
+                <button class="hamburger button no-ripple">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div class="action" id="myAcc">
                     <div class="profile" id="profile">
                         <img src="img/user.png">
@@ -12,13 +18,26 @@
                     <div class="menu-acc">
                         <ul>
                             <h3></h3>
-                            <li><img src="img/donation.png"><a href="/nProduct/" id="donar">Donar</a></li>
-                            <li><img src="img/editing.png"><a href="/profile/">Editar Perfil</a></li>
-                            <li><img src="img/help.png"><a href="#">Ayuda</a></li>
-                            <li><img src="img/logout.png"><a id="signOut">Desconectar</a></li>
+                            <a href="/nProduct/">
+                                <li><img src="img/donation.png">Donar</li>
+                            </a>
+                            <a href="/profile/">
+                                <li><img src="img/editing.png">Editar Perfil</li>
+                            </a>
+                            <a href="#">
+                                <li><img src="img/help.png">Ayuda</li>
+                            </a>
+                            <a id="signOut">
+                                <li><img src="img/logout.png">Desconectar</li>
+                            </a>
                         </ul>
                     </div>
                 </div>
+            </div>
+
+            <div class="menu-mobile">
+                <a href="/login/" id="login">Ingreso</a>
+                <a href="/register/" id="signUp">Registro</a>
             </div>
         </div>
     </nav>
@@ -27,6 +46,8 @@
         <div class="container">
             <a class="tNavbar">Tradder</a>
             <div class="menu">
+                <a href="/login/" id="login">Ingreso</a>
+                <a href="/register/" id="signUp">Registro</a>
                 <a href="/nProduct/" id="donar">Donar</a>
                 <div class="action" id="myAcc">
                     <div class="profile" id="profile">
@@ -35,9 +56,15 @@
                     <div class="menu-acc">
                         <ul>
                             <h3></h3>
-                            <li><img src="img/editing.png"><a href="/profile/">Editar Perfil</a></li>
-                            <li><img src="img/help.png"><a href="#">Ayuda</a></li>
-                            <li><img src="img/logout.png"><a id="signOut">Desconectar</a></li>
+                            <a href="/profile/">
+                                <li><img src="img/editing.png">Editar Perfil</li>
+                            </a>
+                            <a href="#">
+                                <li><img src="img/help.png">Ayuda</li>
+                            </a>
+                            <a id="signOut">
+                                <li><img src="img/logout.png">Desconectar</li>
+                            </a>
                         </ul>
                     </div>
                 </div>
