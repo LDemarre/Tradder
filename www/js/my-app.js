@@ -20,6 +20,7 @@ var app = new Framework7({
     { path: '/profile/', url: 'profile.html' },
     { path: '/nProduct/', url: 'new_product.html' },
     { path: '/product/', url: 'product.html' },
+    { path: '/chat/', url: 'chat.html' },
   ]
   // ... other parameters
 });
@@ -56,6 +57,7 @@ var db = firebase.firestore(),
   storage = firebase.storage(),
   colUser = db.collection("Users"),
   colProduct = db.collection("Product"),
+  colChat = db.collection("Chat"),
   storageRef = firebase.storage().ref();
 
 var photoURL,
@@ -676,25 +678,22 @@ $$(document).on('page:init', function (e) {
       var user = firebase.auth().currentUser;
       var docRefUser = colUser.doc(user.uid);
 
-      docRefUser.get()
-        .then((doc) => {
-          if (doc.exists) {
-            $$('.menu-acc h3').html(doc.data().name + ' ' + doc.data().surname);
+      docRefUser.onSnapshot((doc) => {
+        if (doc.exists) {
+          $$('.menu-acc h3').html(doc.data().name + ' ' + doc.data().surname);
 
-            //Info Personal
-            $$('#pFullName').val(doc.data().name + ' ' + doc.data().surname);
-            $$('#pPhone').val(doc.data().phone);
-            $$('#pBirthday').val(doc.data().birthday);
+          //Info Personal
+          $$('#pFullName').val(doc.data().name + ' ' + doc.data().surname);
+          $$('#pPhone').val(doc.data().phone);
+          $$('#pBirthday').val(doc.data().birthday);
 
-            //Info de seguridad
-            $$('#pEmail').val(doc.data().email);
-            $$('#pPassword').val(doc.data().password);
-          } else {
-            console.log('No such document!');
-          }
-        }).catch((error) => {
-          console.log('Error getting document:', error);
-        });
+          //Info de seguridad
+          $$('#pEmail').val(doc.data().email);
+          $$('#pPassword').val(doc.data().password);
+        } else {
+          console.log('No such document!');
+        }
+      })
     } else {
       $$('#home').css('display', 'block');
       $$('#login').css('display', 'block');
@@ -733,7 +732,42 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       if (isLogged) {
-        colProduct.get().then((querySnapshot) => {
+        colChat.where("receiver", "==", user.uid)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+              console.log(doc.id, " => ", doc.data());
+
+              $$('.chats').append(`<h2>Donar</h2><input value="${doc.data().chatID}">`);
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+
+        colChat.where("sender", "==", user.uid)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+              console.log(doc.id, " => ", doc.data());
+
+              $$('.chats').append(`<h2>Adquirir</h2><input value="${doc.data().chatID}">`);
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+
+        $$('body').on('click', '.chats input', function () {
+          chatID = this.value;
+          mainView.router.navigate('/chat/');
+        })
+
+
+        colProduct.onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
 
@@ -769,7 +803,8 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
       }
     } else {
       if (!logged) {
-        colProduct.get().then((querySnapshot) => {
+        colProduct.onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
 
@@ -807,26 +842,56 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
   })
 })
 
+var userChatID;
+var chatID;
+
 $$(document).on('page:init', '.page[data-name="product"]', function (e) {
-  colProduct.doc(docProduct).get().then((doc) => {
+  $$('.btn-product').on('click', function () {
+    var idURL = $$('.img-showcase img').attr('src');
+
+    colProduct.where('photoURL', '==', idURL)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          userChatID = doc.data().userID;
+          chatID = randomUID();
+
+          colChat.doc(chatID).set({
+            chatID: chatID,
+            receiver: userChatID,
+            sender: firebase.auth().currentUser.uid
+          })
+            .then(() => {
+              console.log("Document successfully written!");
+            })
+            .catch((error) => {
+              console.error("Error writing document: ", error);
+            });
+
+          mainView.router.navigate('/chat/');
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  })
+
+  colProduct.doc(docProduct).onSnapshot((doc) => {
     if (doc.exists) {
       $$('.product-title').html(doc.data().name);
       $$('.img-showcase img').attr('src', doc.data().photoURL);
       $$('#pCategory').html(doc.data().category);
       $$('.product-detail p').html(doc.data().description);
 
-      colUser.doc(doc.data().userID).get().then((doc) => {
+      colUser.doc(doc.data().userID).onSnapshot((doc) => {
         $$('.name-donor span').html(doc.data().name + ' ' + doc.data().surname);
-      }).catch((error) => {
-        console.log("No such document!");
       })
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
     }
-  }).catch((error) => {
-    console.log("Error getting document:", error);
-  });
+  })
 })
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
@@ -910,6 +975,53 @@ $$(document).on('page:init', '.page[data-name="new_product"]', function (e) {
   $$('#new_pButton').on('click', function (e) {
     e.preventDefault();
     publishProduct(photoURL);
+  });
+})
+
+$$(document).on('page:init', '.page[data-name="chat"]', function (e) {
+  var txtMessage = $$('#message-chat');
+  var btnSend = $$('#btn-chat');
+  var bChat = $$('.body-chat');
+  var user = firebase.auth().currentUser;
+
+
+  colUser.doc(user.uid).get().then((doc) => {
+    if (doc.exists) {
+      console.log("Document data:", doc.data());
+
+      btnSend.on('click', function () {
+        var message = txtMessage.val();
+
+        firebase.database().ref('chat' + '-' + chatID).push({
+          name: doc.data().name + 'ㅤ' + doc.data().surname,
+          message: message
+        })
+      })
+
+      firebase.database().ref('chat' + '-' + chatID).on('value', function (snapshot) {
+        var html = '';
+
+        snapshot.forEach(function (e) {
+          var element = e.val();
+          var name = element.name;
+          var message = element.message;
+
+          if (name === doc.data().name + 'ㅤ' + doc.data().surname) {
+            html += `<p class="message-chat user-message"><b> ${name}: </b> ${message} </p>`;
+          } else {
+            html += `<p class="message-chat"><b> ${name}: </b> ${message} </p>`;
+          }
+
+        })
+
+        bChat.html(html);
+      })
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }).catch((error) => {
+    console.log("Error getting document:", error);
   });
 })
 

@@ -429,6 +429,79 @@ nav {
   margin: 8px 16px;
 }
 
+/* Chat */
+.bChat {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-chat {
+  width: 450px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 2px 20px #00000066;
+  background: dodgerblue;
+}
+
+.header-chat h1 {
+  color: var(--white);
+  padding: 15px;
+}
+
+.body-chat {
+  flex: 1;
+  color: var(--white);
+  background: #000000b3;
+  padding: 20px 30px;
+}
+
+.message-chat {
+  background: dodgerblue;
+  padding: 10px;
+  color: var(--white);
+  width: fit-content;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.user-message {
+  margin-left: auto;
+  background: var(--white);
+  color: #000;
+}
+
+.footer-chat form {
+  display: flex;
+}
+
+.footer-chat form input {
+  background: var(--white);
+  flex: 1;
+  height: 40px;
+  border: none;
+  outline: none;
+  padding-left: 5px;
+  font-size: 16px;
+}
+
+.footer-chat form button {
+  width: 100px;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background: dodgerblue;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.footer-chat form button:hover {
+  background: blue;
+  transition: .2s ease; 
+}
+
 /* Formulario de registro e ingreso */
 .form {
   display: flex;
