@@ -77,12 +77,13 @@
             <div class="form_body">
                 <form class="rForm" method="post">
                     <h1 class="rTitle">Publicar producto</h1>
-                    <div class="group" id="pName">
-                        <input autocomplete="off" type="text" name="Name" id="nName" required><span
+                    <div class="group" id="gName">
+                        <input autocomplete="off" type="text" name="pName" id="nName" required><span
                             class="barra"></span>
                         <label>Nombre del producto</label>
                         <i class="form-val-status fa-regular fa-circle-xmark" id="iName"></i>
-                        <p class="form-input-error" id="form-error-Name">El usuario tiene que ser de 4 a 6 dígitos y
+                        <p class="form-input-error" id="form-error-Name-product">El usuario tiene que ser de 4 a 6
+                            dígitos y
                             sólo
                             puede contener numeros,
                             letras y guión bajo.</p>
@@ -97,30 +98,6 @@
                                     <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
                                     <div class="text">No se eligió una imagen aún!</div>
                                     <div class="progress-area">
-                                        <li class="row">
-                                            <i class="fas fa-file-alt"></i>
-                                            <div class="content-progress-area">
-                                                <div class="details-progress-area">
-                                                    <span class="name-progress-area">image_01.png | Uploading</span>
-                                                    <span class="percent">50%</span>
-                                                </div>
-                                                <div class="progress-bar">
-                                                    <div class="progress"></div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </div>
-                                    <div class="uploaded-area">
-                                        <li class="row">
-                                            <div class="content-progress-area">
-                                                <i class="fas fa-file-alt"></i>
-                                                <div class="details-progress-area">
-                                                    <span class="name-progress-area">image_01.png | Uploaded</span>
-                                                    <span class="size">70 kb</span>
-                                                </div>
-                                            </div>
-                                            <i class="fas fa-check"></i>
-                                        </li>
                                     </div>
                                 </div>
                                 <div id="cancel-btn"><i class="fas fa-times"></i></div>
@@ -168,10 +145,6 @@
                             required></textarea>
                         <span class="barra"></span>
                         <label>Descripción</label>
-                        <i class="form-val-status fa-regular fa-circle-xmark" id="iDescription"></i>
-                        <p class="form-input-error" id="form-error-Description">La contraseña tiene que ser de 6 a 12
-                            dígitos.
-                        </p>
                     </div>
 
                     <button id="new_pButton" class="button_form no-ripple">Publicar</button>

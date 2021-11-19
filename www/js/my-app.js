@@ -44,11 +44,24 @@ const fields = {
   Birthday: false
 }
 
+
+const fieldsProduct = {
+  Name: false,
+  Img: false,
+  Category: false
+}
+
 //Variables de firestore
-var db = firebase.firestore();
-var storage = firebase.storage();
-var colUser = db.collection("Users");
-var colProduct = db.collection("Product");
+var db = firebase.firestore(),
+  storage = firebase.storage(),
+  colUser = db.collection("Users"),
+  colProduct = db.collection("Product"),
+  storageRef = firebase.storage().ref();
+
+var photoURL,
+  productPhotoRef,
+  productPhotoRefPrev;
+
 
 //Función de registro
 function register() {
@@ -185,27 +198,41 @@ function signOut() {
 
 //Función para validar el formulario
 function formValidation(e) {
-  if (e.target.name == 'Name') {
-    fieldValidation(expression.name, e.target, 'Name');
-  }
-  else if (e.target.name == 'Surname') {
-    fieldValidation(expression.name, e.target, 'Surname');
-  }
-  else if (e.target.name == 'Email') {
-    fieldValidation(expression.email, e.target, 'Email');
-  }
-  else if (e.target.name == 'Password') {
-    fieldValidation(expression.password, e.target, 'Password');
-    passwordValidation();
-  }
-  else if (e.target.name == 'ConPassword') {
-    passwordValidation();
-  }
-  else if (e.target.name == 'Birthday') {
-    howOldAreYou(e.target.value);
-  }
-  else {
-    fieldValidation(expression.phone, e.target, 'Phone');
+  switch (e.target.name) {
+    case 'Name':
+      fieldValidation(expression.name, e.target, 'Name');
+      break;
+
+    case 'Surname':
+      fieldValidation(expression.name, e.target, 'Surname');
+      break;
+
+    case 'Email':
+      fieldValidation(expression.email, e.target, 'Email');
+      break;
+
+    case 'Password':
+      fieldValidation(expression.password, e.target, 'Password');
+      passwordValidation();
+      break;
+
+    case 'ConPassword':
+      passwordValidation();
+      break;
+
+    case 'Birthday':
+      howOldAreYou(e.target.value);
+      break;
+
+    case 'Phone':
+      fieldValidation(expression.phone, e.target, 'Phone');
+      break;
+
+    case 'pName':
+      if (fieldValidation(expression.name, e.target, 'Name')) {
+        fieldsProduct.Name = true;
+      }
+      break;
   }
 }
 
@@ -258,6 +285,7 @@ function fieldValidation(expression, input, field) {
     $$('#form-error-' + field).removeClass('is-active');
 
     fields[field] = true;
+    return true;
   }
   else if (input.value == '') {
     $$('#g' + field).removeClass('group-correct');
@@ -350,12 +378,13 @@ function optionListCategory() {
     $$(item).on('click', function () {
       selected.html($$(item).children('label').html());
       optionsContainer.removeClass('active');
+
+      fieldsProduct.Category = true;
     })
   })
 }
 
-var storageRef = firebase.storage().ref();
-var photoURL;
+var productPrev = true;
 
 // Función para poner una imagen y agregar su nombre en el recuadro
 function defaultBtnActive() {
@@ -364,56 +393,127 @@ function defaultBtnActive() {
   var cancelBtn = $$('#cancel-btn');
   var defaultBtn = $$('#default-btn');
   var img = $$('.image img');
+  var text = $$('.text');
+
+  var productNew = false;
 
   var regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
 
   defaultBtn.click();
   defaultBtn.on('change', function () {
-    var progressArea = $$('.progress-area'),
-      uploadedArea = $$('.uploaded-area');
+    if (productNew === false) {
+      var file = this.files[0];
+      productPhotoRef = storageRef.child('images/Products/' + randomUID());
 
-    var file = this.files[0];
-    var productPhotoRef = storageRef.child(randomUID());
-
-    productPhotoRef.put(file).then(function (snapshot) {
-      console.log('Uploaded a blob or file!');
-      if (file) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "php/upload.php");
-        xhr.upload.addEventListener('progress', ({ loaded, total }) => {
-          let fileLoaded = Math.floor((loaded / total) * 100);
-          let fileTotal = Math.floor(total / 1000);
-          console.log(fileLoaded, fileTotal);
-        })
-
-        var reader = new FileReader();
-        reader.onload = function () {
-          var result = reader.result;
-          img.attr('src', result);
-          wrapper.addClass('active');
-          img.css("display", "block");
-        }
-        cancelBtn.on('click', function () {
+      console.log(productPrev);
+      if (fieldsProduct.Img === true && productPrev === false) {
+        productPhotoRefPrev.delete().then(function () {
+          // File deleted successfully
+          progressArea.html('');
           img.attr('src', '');
           wrapper.removeClass('active');
-        })
-        reader.readAsDataURL(file);
+        }).catch(function (error) {
+          // Uh-oh, an error occurred!
+        });
       }
 
-      if (this.value) {
-        var valueStore = this.value.match(regExp);
-        fileName.html(valueStore);
-      }
+      productPhotoRefPrev = productPhotoRef;
 
-      productPhotoRef.getDownloadURL().then(function (url) {
-        // `url` is the download URL for 'images/stars.jpg'
-        // Or inserted into an <img> element:
-        photoURL = url;
-      }).catch(function (error) {
-        // Handle any errors
-      });
-    });
+      var totalBytes,
+        progressArea = $$('.progress-area');
 
+      var metadata = {
+        name: firebase.auth().currentUser.Name
+      };
+
+      var uploadTask = productPhotoRef.put(file, metadata);
+
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        function (snapshot) {
+          var progress = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          totalBytes = Math.floor(snapshot.totalBytes / 1000);
+
+          var progressHTML = `<li class="row">
+                                  <i class="fas fa-file-alt"></i>
+                                  <div class="content-progress-area">
+                                      <div class="details-progress-area">
+                                          <span class="name-progress-area">${file.name} • Uploading</span>
+                                          <span class="percent">${progress}%</span>
+                                      </div>
+                                      <div class="progress-bar">
+                                          <div class="progress" style="width: ${progress}%"></div>
+                                      </div>
+                                  </div>
+                              </li>`;
+
+          progressArea.html(progressHTML);
+          text.html('');
+
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED:
+              console.log('Upload is paused');
+              break;
+            case firebase.storage.TaskState.RUNNING:
+              console.log('Upload is running');
+              break;
+          }
+        }, function (error) {
+          switch (error.code) {
+            case 'storage/unauthorized':
+              // User doesn't have permission to access the object
+              break;
+            case 'storage/canceled':
+              // User canceled the upload
+              break;
+            case 'storage/unknown':
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        }, function () {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log('File available at', downloadURL);
+            photoURL = downloadURL;
+
+            if (file) {
+              var reader = new FileReader();
+              reader.onload = function () {
+                var result = reader.result;
+                img.attr('src', result);
+                wrapper.addClass('active');
+                img.css("display", "block");
+              }
+              cancelBtn.on('click', function () {
+                if (fieldsProduct.Img === true) {
+                  fieldsProduct.Img = false;
+
+                  productPhotoRef.delete().then(function () {
+                    // File deleted successfully
+                    text.html('No se eligió una imagen aún!');
+
+                  }).catch(function (error) {
+                    // Uh-oh, an error occurred!
+                  });
+                }
+
+                progressArea.html('');
+                img.attr('src', '');
+                wrapper.removeClass('active');
+              })
+              reader.readAsDataURL(file);
+            }
+
+            if (file.name) {
+              var valueStore = file.name.match(regExp);
+              fileName.html(`${valueStore} • ${totalBytes}KB`);
+
+              fieldsProduct.Img = true;
+            }
+          });
+        });
+
+      productPrev = false;
+      productNew = true;
+    }
   })
 }
 
@@ -503,31 +603,43 @@ function randomUID() {
 
 //Función para publicar un producto
 function publishProduct(photoURL) {
-  var name = $$('#nName').val();
-  var category = $$('.selected').html();
-  var description = $$('#nDescription').val();
+  if (fieldsProduct.Name === true && fieldsProduct.Img === true && fieldsProduct.Category === true) {
+    var name = $$('#nName').val();
+    var category = $$('.selected').html();
+    var description = $$('#nDescription').val();
 
-  userID = firebase.auth().currentUser.uid;
+    userID = firebase.auth().currentUser.uid;
 
-  data = {
-    rol: "Product",
-    name: name,
-    category: category,
-    description: description,
-    userID: userID,
-    photoURL: photoURL
+    data = {
+      rol: "Product",
+      name: name,
+      category: category,
+      description: description,
+      userID: userID,
+      photoURL: photoURL
+    }
+
+    colProduct.doc(randomUID()).set(data)
+      .then(() => {
+        console.log("Document successfully written!");
+        mainView.router.navigate('/pagPrin/');
+        logged = false;
+        isLogged = true;
+
+        $$('#form-message-exito').addClass('is-active');
+        $$('#form-message-error').removeClass('is-active');
+
+        fieldsProduct.Name = true;
+        fieldsProduct.Img = true;
+        fieldsProduct.Category = true;
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+      });
+  } else {
+    $$('#form-message-exito').removeClass('is-active');
+    $$('#form-message-error').addClass('is-active');
   }
-
-  colProduct.doc(randomUID()).set(data)
-    .then(() => {
-      console.log("Document successfully written!");
-      mainView.router.navigate('/pagPrin/');
-      logged = false;
-      isLogged = true;
-    })
-    .catch((error) => {
-      console.error("Error writing document: ", error);
-    });
 }
 
 // Handle Cordova Device Ready Event
@@ -537,6 +649,12 @@ $$(document).on('deviceready', function () {
 
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init', function (e) {
+  productPrev = true;
+
+  if (fieldsProduct.Img === true && fieldsProduct.Name === false || fieldsProduct.Category === false) {
+    $$('#cancel-btn').click();
+  }
+
   $$('.tNavbar').on('click', function () {
     mainView.router.navigate('/pagPrin/');
     logged = false;
@@ -619,27 +737,27 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
 
-            $$('.container-card').append($$(
-              '<div class="card">' +
-              '<div class="imgBx">' +
-              '<img src="' + doc.data().photoURL + '">' +
-              '</div>' +
-              '<div class="content">' +
-              '<div class="productName">' +
-              '<h3>' + doc.data().name + '</h3>' +
-              '</div>' +
-              '<div class="category-rating">' +
-              '<h2>' + doc.data().category + '</h2>' +
-              '<div class="rating">' +
-              '<i class="fa fa-star"></i>' +
-              '<i class="fa fa-star"></i>' +
-              '<i class="fa fa-star"></i>' +
-              '<i class="fa fa-star"></i>' +
-              '<i class="fa fa-star"></i>' +
-              '</div>' +
-              '</div>' +
-              '</div>' +
-              '</div>'))
+            $$('.container-card').append($$(`
+            <div class="card"> 
+              <div class="imgBx"> 
+                <img src="${doc.data().photoURL}">
+              </div> 
+              <div class="content"> 
+                <div class="productName"> 
+                  <h3> ${doc.data().name} </h3> 
+                </div> 
+                <div class="category-rating"> 
+                  <h2> ${doc.data().category} </h2> 
+                  <div class="rating">' 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                  </div> 
+                </div> 
+              </div> 
+            </div>`))
           });
         });
 
@@ -655,27 +773,27 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
 
-            $$('.container-card').append($$(
-              '<div class="card">' +
-              '<div class="imgBx">' +
-              '<img src="' + doc.data().photoURL + '">' +
-              '</div>' +
-              '<div class="content">' +
-              '<div class="productName">' +
-              '<h3>' + doc.data().name + '</h3>' +
-              '</div>' +
-              '<div class="category-rating">' +
-              '<h2>' + doc.data().category + '</h2>' +
-              '<div class="rating">' +
-              '<i class="fa fa-star"></i>' +
-              '<i class="fa fa-star"></i>' +
-              '<i class="fa fa-star"></i>' +
-              '<i class="fa fa-star"></i>' +
-              '<i class="fa fa-star"></i>' +
-              '</div>' +
-              '</div>' +
-              '</div>' +
-              '</div>'))
+            $$('.container-card').append($$(`
+              <div class="card"> 
+                <div class="imgBx"> 
+                  <img src="${doc.data().photoURL}">
+                </div> 
+                <div class="content"> 
+                  <div class="productName"> 
+                    <h3> ${doc.data().name} </h3> 
+                  </div> 
+                  <div class="category-rating"> 
+                    <h2> ${doc.data().category} </h2> 
+                    <div class="rating">' 
+                      <i class="fa fa-star"></i> 
+                      <i class="fa fa-star"></i> 
+                      <i class="fa fa-star"></i> 
+                      <i class="fa fa-star"></i> 
+                      <i class="fa fa-star"></i> 
+                    </div> 
+                  </div> 
+                </div> 
+              </div>`))
           });
         });
 
@@ -692,16 +810,12 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
 $$(document).on('page:init', '.page[data-name="product"]', function (e) {
   colProduct.doc(docProduct).get().then((doc) => {
     if (doc.exists) {
-      console.log("Document data:", doc.data());
-
       $$('.product-title').html(doc.data().name);
       $$('.img-showcase img').attr('src', doc.data().photoURL);
       $$('#pCategory').html(doc.data().category);
       $$('.product-detail p').html(doc.data().description);
 
       colUser.doc(doc.data().userID).get().then((doc) => {
-        console.log("Document data:", doc.data());
-
         $$('.name-donor span').html(doc.data().name + ' ' + doc.data().surname);
       }).catch((error) => {
         console.log("No such document!");
@@ -781,6 +895,9 @@ $$(document).on('page:init', '.page[data-name="profile"]', function (e) {
 })
 
 $$(document).on('page:init', '.page[data-name="new_product"]', function (e) {
+  $$('input').on('keyup', formValidation);
+  $$('input').on('blur', formValidation);
+
   e.preventDefault();
 
   var img = $$('.image img');
