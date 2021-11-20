@@ -90,6 +90,7 @@ input, textarea {
 /* Página Principal */
 .page-content {
   background: var(--gradiant);  /* fallback for old browsers */
+  overflow-x: hidden;
 }
 
 .page-products {
@@ -997,9 +998,6 @@ footer {
   border-top: var(--primary) 3px solid;
   position: absolute;
 }
-#footer {
-  bottom: 0;
-}
 
 .logo {
   height: 80px;
@@ -1489,10 +1487,6 @@ footer {
 }
 
 @media screen and (max-height: 899px) {
-  #footer {
-    position: relative;
-  }
-
   #preNext {
     font-size: 20px;
   }
