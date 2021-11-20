@@ -643,6 +643,10 @@ $$(document).on('deviceready', function () {
 
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init', function (e) {
+  const metaViewport = document.querySelector('meta[name=viewport]');
+  var initialHeight = $$('.page-content').height();
+  metaViewport.setAttribute('content', 'height=' + initialHeight + 'px, width=device-width, initial-scale=1.0');
+
   productPrev = true;
 
   if (fieldsProduct.Img === true && fieldsProduct.Name === false || fieldsProduct.Category === false) {
@@ -974,7 +978,6 @@ $$(document).on('page:init', '.page[data-name="chat"]', function (e) {
   var bChat = $$('.body-chat');
   var user = firebase.auth().currentUser;
 
-  txtMessage.focus();
   colUser.doc(user.uid).get().then((doc) => {
     if (doc.exists) {
       btnSend.on('click', function (e) {

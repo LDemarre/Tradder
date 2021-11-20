@@ -331,9 +331,6 @@ input, textarea {
 
 nav {
   position: static;
-  top: 0;
-  left: 0;
-  right: 0;
   z-index: 99;
   background-color: var(--dark);
   padding: 0px 32px;
@@ -998,9 +995,9 @@ footer {
   align-items: center;
   flex-direction: column;
   border-top: var(--primary) 3px solid;
+  position: absolute;
 }
 #footer {
-  position: absolute;
   bottom: 0;
 }
 
