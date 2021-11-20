@@ -23,7 +23,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <icon src="www/img/logo_tradder.png"></icon>
+    <icon src="www/img/logo_tradder.png"/>
 
     <allow-navigation href="*" />
 
