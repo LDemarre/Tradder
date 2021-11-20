@@ -5,7 +5,7 @@ var app = new Framework7({
   // App root element
   root: '#app',
   // App Name
-  name: 'My App',
+  name: 'Tradder',
   // App id
   id: 'com.myapp.test',
   // Enable swipe panel
