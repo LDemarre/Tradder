@@ -978,6 +978,7 @@ $$(document).on('page:init', '.page[data-name="chat"]', function (e) {
   var bChat = $$('.body-chat');
   var user = firebase.auth().currentUser;
 
+  txtMessage.focus();
   colUser.doc(user.uid).get().then((doc) => {
     if (doc.exists) {
       btnSend.on('click', function (e) {
