@@ -438,12 +438,14 @@ nav {
 }
 
 .container-chat {
+  border-radius: 10px;
+  margin: 0 10px;
   width: 450px;
   height: 80vh;
   display: flex;
   flex-direction: column;
   box-shadow: 2px 2px 20px #00000066;
-  background: dodgerblue;
+  background: var(--bColor);
 }
 
 .header-chat h1 {
@@ -456,10 +458,11 @@ nav {
   color: var(--white);
   background: #000000b3;
   padding: 20px 30px;
+  overflow-y: scroll;
 }
 
 .message-chat {
-  background: dodgerblue;
+  background: var(--bPress);
   padding: 10px;
   color: var(--white);
   width: fit-content;
@@ -492,14 +495,88 @@ nav {
   font-size: 18px;
   border: none;
   outline: none;
-  background: dodgerblue;
+  background: var(--bColor);
   color: var(--white);
   cursor: pointer;
 }
 
 .footer-chat form button:hover {
-  background: blue;
-  transition: .2s ease; 
+  background: var(--bProfile);
+  transition: .2s ease;
+}
+
+/* Chats propios */
+.bOChat {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.container-owner-chats {
+  position: relative;
+  width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.cards-owner-chats {
+  width: 100%;
+  height: 425px;
+  margin: 40px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: 0px 1px 10px #00000033;
+  cursor: default;
+  transition: all .4s ease;
+}
+
+.cards-owner-chats:hover {
+  box-shadow: 5px 5px 20px #00000066;
+  transform: translateY(-3%);
+}
+
+.cards-owner-chats img {
+  width: 100%;
+  height: 210px;
+}
+
+figure {
+  margin: 0;
+}
+
+.cards-owner-chats .content-owner-chats {
+  padding: 20px;
+  text-align: center;
+}
+
+.cards-owner-chats .content-owner-chats p {
+  line-height: 1.5;
+  color: #6a6a6a;
+}
+
+.cards-owner-chats .content-owner-chats h3 {
+  font-weight: 300;
+  margin-bottom: 15px;
+}
+
+.cards-owner-chats .content-owner-chats a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px;
+  margin-top: 10px;
+  color: var(--bProfile2);
+  border: 1px solid var(--bProfile2);
+  border-radius: 4px;
+  transition: all .4s ease;
+}
+
+.cards-owner-chats .content-owner-chats a:hover {
+  background: var(--bProfile2);
+  color: var(--white);
 }
 
 /* Formulario de registro e ingreso */

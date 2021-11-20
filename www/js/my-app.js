@@ -21,6 +21,7 @@ var app = new Framework7({
     { path: '/nProduct/', url: 'new_product.html' },
     { path: '/product/', url: 'product.html' },
     { path: '/chat/', url: 'chat.html' },
+    { path: '/ownerChats/', url: 'ownerChats.html' },
   ]
   // ... other parameters
 });
@@ -78,7 +79,6 @@ function register() {
     .then((userCredential) => {
       // Signed in
       var user = userCredential.user;
-      console.log(user);
       // ...
 
       firebase.auth().currentUser.sendEmailVerification()
@@ -98,10 +98,10 @@ function register() {
           colUser.doc(passOfCollection).set(data)
             .then(() => {
               emailVerification();
-              console.log("Document successfully written!");
+              // "Document successfully written!"
             })
             .catch((error) => {
-              console.error("Error writing document: ", error);
+              // "Error writing document"
             });
 
           $$('.form_body input').val('');
@@ -133,9 +133,6 @@ function register() {
       var errorCode = error.code;
       var errorMessage = error.message;
       // ..
-      console.log(email);
-      console.log(error.code);
-      console.log(error.message);
 
       if (errorCode == 'auth/email-already-in-use') {
         $$('.form_body input').val('');
@@ -168,9 +165,6 @@ function login() {
     .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
-
-      console.error(errorCode);
-      console.log(errorMessage);
 
       if (errorCode == 'auth/user-not-found') {
         $$('#form-message-error-login').addClass('is-active');
@@ -407,7 +401,6 @@ function defaultBtnActive() {
       var file = this.files[0];
       productPhotoRef = storageRef.child('images/Products/' + randomUID());
 
-      console.log(productPrev);
       if (fieldsProduct.Img === true && productPrev === false) {
         productPhotoRefPrev.delete().then(function () {
           // File deleted successfully
@@ -453,10 +446,10 @@ function defaultBtnActive() {
 
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED:
-              console.log('Upload is paused');
+              // 'Upload is paused'
               break;
             case firebase.storage.TaskState.RUNNING:
-              console.log('Upload is running');
+              // 'Upload is running'
               break;
           }
         }, function (error) {
@@ -473,7 +466,6 @@ function defaultBtnActive() {
           }
         }, function () {
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-            console.log('File available at', downloadURL);
             photoURL = downloadURL;
 
             if (file) {
@@ -541,11 +533,11 @@ function securityChange(panelIndex) {
           password: newPassword
         })
           .then(() => {
-            console.log("Document successfully updated!");
+            // "Document successfully updated!"
           })
           .catch((error) => {
             // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
+            // "Error updating document"
           });
       }).catch((error) => {
         // An error ocurred
@@ -572,11 +564,11 @@ function securityChange(panelIndex) {
           email: newEmail
         })
           .then(() => {
-            console.log("Document successfully updated!");
+            // "Document successfully updated!"
           })
           .catch((error) => {
             // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
+            // "Error updating document"
           });
       }).catch((error) => {
         // An error ocurred
@@ -623,7 +615,7 @@ function publishProduct(photoURL) {
 
     colProduct.doc(randomUID()).set(data)
       .then(() => {
-        console.log("Document successfully written!");
+        // "Document successfully written!"
         mainView.router.navigate('/pagPrin/');
         logged = false;
         isLogged = true;
@@ -636,7 +628,7 @@ function publishProduct(photoURL) {
         fieldsProduct.Category = true;
       })
       .catch((error) => {
-        console.error("Error writing document: ", error);
+        // "Error writing document"
       });
   } else {
     $$('#form-message-exito').removeClass('is-active');
@@ -691,7 +683,7 @@ $$(document).on('page:init', function (e) {
           $$('#pEmail').val(doc.data().email);
           $$('#pPassword').val(doc.data().password);
         } else {
-          console.log('No such document!');
+          // 'No such document!'
         }
       })
     } else {
@@ -700,6 +692,9 @@ $$(document).on('page:init', function (e) {
       $$('#signUp').css('display', 'block');
       $$('#myAcc').css('display', 'none');
       $$('#donar').css('display', 'none');
+
+      $$('.btn-product').attr('disabled', 'true');
+      $$('.btn-product').css('background', '#7a6e32');
 
       $$('.hamburger.button.no-ripple').on('click', function () {
         $$('.hamburger.button.no-ripple').toggleClass('is-active');
@@ -725,47 +720,13 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
         });
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error);
+        // "Error getting documents"
       });
   })
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       if (isLogged) {
-        colChat.where("receiver", "==", user.uid)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              // doc.data() is never undefined for query doc snapshots
-              console.log(doc.id, " => ", doc.data());
-
-              $$('.chats').append(`<h2>Donar</h2><input value="${doc.data().chatID}">`);
-            });
-          })
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
-          });
-
-        colChat.where("sender", "==", user.uid)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              // doc.data() is never undefined for query doc snapshots
-              console.log(doc.id, " => ", doc.data());
-
-              $$('.chats').append(`<h2>Adquirir</h2><input value="${doc.data().chatID}">`);
-            });
-          })
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
-          });
-
-        $$('body').on('click', '.chats input', function () {
-          chatID = this.value;
-          mainView.router.navigate('/chat/');
-        })
-
-
         colProduct.onSnapshot((querySnapshot) => {
           $$('.container-card').html('');
           querySnapshot.forEach((doc) => {
@@ -846,39 +807,64 @@ var userChatID;
 var chatID;
 
 $$(document).on('page:init', '.page[data-name="product"]', function (e) {
-  $$('.btn-product').on('click', function () {
-    var idURL = $$('.img-showcase img').attr('src');
-
-    colProduct.where('photoURL', '==', idURL)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          userChatID = doc.data().userID;
-          chatID = randomUID();
-
-          colChat.doc(chatID).set({
-            chatID: chatID,
-            receiver: userChatID,
-            sender: firebase.auth().currentUser.uid
-          })
-            .then(() => {
-              console.log("Document successfully written!");
-            })
-            .catch((error) => {
-              console.error("Error writing document: ", error);
-            });
-
-          mainView.router.navigate('/chat/');
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-  })
+  var userID = firebase.auth().currentUser;
 
   colProduct.doc(docProduct).onSnapshot((doc) => {
     if (doc.exists) {
+
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          colProduct.where('userID', '==', user.uid).get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              $$('.btn-product').attr('disabled', 'true');
+              $$('.btn-product').css('background', '#7a6e32');
+            })
+          })
+
+          colChat.where('pURL', '==', doc.data().photoURL).get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              colChat.where('sender', '==', user.uid).get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  $$('.btn-product').attr('disabled', 'true');
+                  $$('.btn-product').css('background', '#7a6e32');
+                })
+              })
+            })
+          })
+        }
+      })
+
+      $$('.btn-product').on('click', function () {
+        colProduct.where('photoURL', '==', doc.data().photoURL)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+              userChatID = doc.data().userID;
+              chatID = randomUID();
+
+              colChat.doc(chatID).set({
+                chatID: chatID,
+                receiver: userChatID,
+                sender: userID.uid,
+                pURL: doc.data().photoURL,
+                pName: doc.data().name
+              })
+                .then(() => {
+                  // Document successfully written!
+                })
+                .catch((error) => {
+                  // "Error writing document"
+                });
+
+              mainView.router.navigate('/chat/');
+            });
+          })
+          .catch((error) => {
+            // "Error writing document"
+          });
+      })
+
       $$('.product-title').html(doc.data().name);
       $$('.img-showcase img').attr('src', doc.data().photoURL);
       $$('#pCategory').html(doc.data().category);
@@ -889,12 +875,14 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
       })
     } else {
       // doc.data() will be undefined in this case
-      console.log("No such document!");
+      // "No such document!"
     }
   })
 })
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
+  $$('#name').focus();
+
   $$('input').on('keyup', formValidation);
   $$('input').on('blur', formValidation);
 
@@ -925,6 +913,8 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
 })
 
 $$(document).on('page:init', '.page[data-name="login"]', function (e) {
+  $$('#lEmail').focus();
+
   $$('#lButton').on('click', function (e) {
     e.preventDefault();
     login();
@@ -984,18 +974,23 @@ $$(document).on('page:init', '.page[data-name="chat"]', function (e) {
   var bChat = $$('.body-chat');
   var user = firebase.auth().currentUser;
 
-
+  txtMessage.focus();
   colUser.doc(user.uid).get().then((doc) => {
     if (doc.exists) {
-      console.log("Document data:", doc.data());
+      btnSend.on('click', function (e) {
+        e.preventDefault();
 
-      btnSend.on('click', function () {
-        var message = txtMessage.val();
+        if (txtMessage.val() !== '') {
+          var message = txtMessage.val();
+          var completeName = doc.data().name + ' ' + doc.data().surname;
 
-        firebase.database().ref('chat' + '-' + chatID).push({
-          name: doc.data().name + 'ㅤ' + doc.data().surname,
-          message: message
-        })
+          txtMessage.val('');
+
+          firebase.database().ref('chat' + '-' + chatID).push({
+            name: completeName,
+            message: message
+          })
+        }
       })
 
       firebase.database().ref('chat' + '-' + chatID).on('value', function (snapshot) {
@@ -1005,8 +1000,9 @@ $$(document).on('page:init', '.page[data-name="chat"]', function (e) {
           var element = e.val();
           var name = element.name;
           var message = element.message;
+          var completeName = doc.data().name + ' ' + doc.data().surname
 
-          if (name === doc.data().name + 'ㅤ' + doc.data().surname) {
+          if (name === completeName) {
             html += `<p class="message-chat user-message"><b> ${name}: </b> ${message} </p>`;
           } else {
             html += `<p class="message-chat"><b> ${name}: </b> ${message} </p>`;
@@ -1018,11 +1014,65 @@ $$(document).on('page:init', '.page[data-name="chat"]', function (e) {
       })
     } else {
       // doc.data() will be undefined in this case
-      console.log("No such document!");
+      // "No such document!"
     }
   }).catch((error) => {
-    console.log("Error getting document:", error);
+    // "Error getting document"
   });
+})
+
+
+$$(document).on('page:init', '.page[data-name="ownerChats"]', function (e) {
+  var user = firebase.auth().currentUser;
+
+  colChat.where("receiver", "==", user.uid)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        $$('.container-owner-chats').append(`
+          <div class="cards-owner-chats">
+              <figure>
+                  <img src="${doc.data().pURL}">
+              </figure>
+              <div class="content-owner-chats">
+                  <h3>${doc.data().pName}</h3>
+                  <p> <b>Para:</b> Donar el producto</p>
+                  <a href="#" name="${doc.data().chatID}">Entrar al chat</a>
+              </div>
+          </div>`);
+      });
+    })
+    .catch((error) => {
+      // "Error getting document"
+    });
+
+  colChat.where("sender", "==", user.uid)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        $$('.container-owner-chats').append(`
+          <div class="cards-owner-chats">
+              <figure>
+                  <img src="${doc.data().pURL}">
+              </figure>
+              <div class="content-owner-chats">
+                  <h3>${doc.data().pName}</h3>
+                  <p> <b>Para:</b> Recibir el producto</p>
+                  <a href="#" name="${doc.data().chatID}">Entrar al chat</a>
+              </div>
+          </div>`);
+      });
+    })
+    .catch((error) => {
+      // "Error getting document"
+    });
+
+  $$('body').on('click', '.content-owner-chats a', function () {
+    chatID = this.name;
+    mainView.router.navigate('/chat/');
+  })
 })
 
 //slider
