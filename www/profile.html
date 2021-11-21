@@ -73,46 +73,49 @@
             </div>
         </nav>
 
-        <div class="container-profile">
-            <div class="leftbox">
-                <div>
-                    <a onclick="tabs(0)" class="tab active">
-                        <i class="fa fa-user-cog"></i>
-                    </a>
-                    <a onclick="tabs(1)" class="tab">
-                        <i class="fas fa-fingerprint"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="rightbox">
-                <div class="profile tabShow">
-                    <h1>Información Personal</h1>
-                    <h2>Nombre Completo</h2>
-                    <input type="text" class="input" id="pFullName" disabled>
-                    <h2>Día de nacimiento</h2>
-                    <input type="text" class="input" id="pBirthday" disabled>
-                    <h2>Teléfono</h2>
-                    <input type="text" class="input" id="pPhone" disabled>
-                </div>
-                <div class="security tabShow">
-                    <h1>Información de Seguridad</h1>
-                    <div class="group-profile">
-                        <h2>Email</h2>
-                        <input type="text" class="input" id="pEmail" disabled></i>
-                        <i class="fas fa-edit" id="btn-cEmail"></i>
+        <div class="container-body-profile">
+            <div class="container-profile">
+                <div class="leftbox">
+                    <div>
+                        <a onclick="tabs(0)" class="tab active">
+                            <i class="fa fa-user-cog"></i>
+                        </a>
+                        <a onclick="tabs(1)" class="tab">
+                            <i class="fas fa-fingerprint"></i>
+                        </a>
                     </div>
-                    <div class="group-profile">
-                        <h2>Contraseña</h2>
-                        <input type="password" class="input" id="pPassword" disabled>
-                        <i class="fas fa-edit" id="btn-cPassword"></i>
+                </div>
+                <div class="rightbox">
+                    <div class="profile tabShow">
+                        <h1>Información Personal</h1>
+                        <h2>Nombre Completo</h2>
+                        <input type="text" class="input" id="pFullName" disabled>
+                        <h2>Día de nacimiento</h2>
+                        <input type="text" class="input" id="pBirthday" disabled>
+                        <h2>Teléfono</h2>
+                        <input type="text" class="input" id="pPhone" disabled>
                     </div>
-                    <button class="btn no-ripple" id="btn-pSecurity-password"
-                        onclick="securityChange(0)">Actualizar</button>
-                    <button class="btn no-ripple" id="btn-pSecurity-email"
-                        onclick="securityChange(1)">Actualizar</button>
+                    <div class="security tabShow">
+                        <h1>Información de Seguridad</h1>
+                        <div class="group-profile">
+                            <h2>Email</h2>
+                            <input type="text" class="input" id="pEmail" disabled></i>
+                            <i class="fas fa-edit" id="btn-cEmail"></i>
+                        </div>
+                        <div class="group-profile">
+                            <h2>Contraseña</h2>
+                            <input type="password" class="input" id="pPassword" disabled>
+                            <i class="fas fa-edit" id="btn-cPassword"></i>
+                        </div>
+                        <button class="btn no-ripple" id="btn-pSecurity-password"
+                            onclick="securityChange(0)">Actualizar</button>
+                        <button class="btn no-ripple" id="btn-pSecurity-email"
+                            onclick="securityChange(1)">Actualizar</button>
+                    </div>
                 </div>
             </div>
         </div>
+
 
         <footer>
             <img src="img/logo_tradder.png" class="logo">
@@ -122,13 +125,6 @@
                 <a href="#"><img src="img/ICON_TW.png" class="social-icon"></a>
                 <a href="#"><img src="img/ICON_YT.png" class="social-icon"></a>
             </div>
-            <ul class="footer-menu-container">
-                <li class="menu-item">Legal</li>
-                <li class="menu-item">Cookies</li>
-                <li class="menu-item">Privacy</li>
-                <li class="menu-item">Shipping</li>
-                <li class="menu-item">Refounds</li>
-            </ul>
             <span class="copyright">&copy;2021, Tradder. All rights reserved.</span>
         </footer>
     </div>

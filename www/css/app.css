@@ -93,10 +93,50 @@ input, textarea {
   overflow-x: hidden;
 }
 
+.controls-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 20px 0;
+  list-style: none;
+}
+
+.controls-filter .buttons-filter {
+  height: 40px;
+  width: 140px;
+  background: var(--white);
+  color: #666;
+  font-size: 20px;
+  line-height: 40px;
+  cursor: pointer;
+  margin: 20px;
+  box-shadow: 0 3px 5px #0000004d;
+  text-align: center;
+}
+
+.page[data-name="pagPrin"] .container-category {
+  margin: 20px auto;
+  width: 80vw;
+}
+
+.page[data-name="pagPrin"] .select-box .options-container {
+  top: 165px;
+  width: 80vw;
+}
+
+.page[data-name="pagPrin"] .select-box .options-container.active {
+  max-height: 450px;
+}
+
+.page[data-name="pagPrin"] .selected {
+  background: var(--bProfile);
+}
+
 .page-products {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: flex-start;
   min-height: 100vh; 
 }
 
@@ -866,6 +906,10 @@ label {
 }
 
 /* Perfil del usuario */
+.container-body-profile {
+  min-height: 60vh;
+}
+
 .container-profile {
   background: var(--white);
   width: 620px;
@@ -1414,11 +1458,11 @@ footer {
     width: 80%;
   }
 
-  .selected {
+  .page[data-name="new_product"] .selected {
     font-size: 12px;
   }
 
-  .select-box .option {
+  .page[data-name="new_product"] .select-box .option {
     padding: 12px;
   }
 }

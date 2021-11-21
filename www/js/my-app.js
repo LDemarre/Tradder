@@ -715,20 +715,7 @@ var isLogged = true;
 var docProduct;
 
 $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
-  $$('body').on('click', '.card img', function () {
-    colProduct.where("photoURL", "==", this.src)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          docProduct = doc.id;
-          mainView.router.navigate('/product/');
-        });
-      })
-      .catch((error) => {
-        // "Error getting documents"
-      });
-  })
+  optionListCategory();
 
   colProduct.onSnapshot((querySnapshot) => {
     $$('.container-card').html('');
@@ -758,6 +745,242 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
       </div>`))
     });
   });
+
+  $$('.option').on('click', function () {
+    switch ($$(this).attr('name')) {
+      case 'all':
+        colProduct.onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(`
+            <div class="card"> 
+              <div class="imgBx"> 
+                <img src="${doc.data().photoURL}">
+              </div> 
+              <div class="content"> 
+                <div class="productName"> 
+                  <h3> ${doc.data().name} </h3> 
+                </div> 
+                <div class="category-rating"> 
+                  <h2> ${doc.data().category} </h2> 
+                  <div class="rating">' 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                  </div> 
+                </div> 
+              </div> 
+            </div>`))
+          });
+        });
+        break;
+
+      case 'metal':
+        colProduct.where('category', '==', 'Metal').onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(`
+            <div class="card"> 
+              <div class="imgBx"> 
+                <img src="${doc.data().photoURL}">
+              </div> 
+              <div class="content"> 
+                <div class="productName"> 
+                  <h3> ${doc.data().name} </h3> 
+                </div> 
+                <div class="category-rating"> 
+                  <h2> ${doc.data().category} </h2> 
+                  <div class="rating">' 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                  </div> 
+                </div> 
+              </div> 
+            </div>`))
+          });
+        });
+        break;
+
+      case 'glass':
+        colProduct.where('category', '==', 'Vidrio').onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(`
+            <div class="card"> 
+              <div class="imgBx"> 
+                <img src="${doc.data().photoURL}">
+              </div> 
+              <div class="content"> 
+                <div class="productName"> 
+                  <h3> ${doc.data().name} </h3> 
+                </div> 
+                <div class="category-rating"> 
+                  <h2> ${doc.data().category} </h2> 
+                  <div class="rating">' 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                  </div> 
+                </div> 
+              </div> 
+            </div>`))
+          });
+        });
+        break;
+
+      case 'cardboard':
+        colProduct.where('category', '==', 'Cartón').onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(`
+            <div class="card"> 
+              <div class="imgBx"> 
+                <img src="${doc.data().photoURL}">
+              </div> 
+              <div class="content"> 
+                <div class="productName"> 
+                  <h3> ${doc.data().name} </h3> 
+                </div> 
+                <div class="category-rating"> 
+                  <h2> ${doc.data().category} </h2> 
+                  <div class="rating">' 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                  </div> 
+                </div> 
+              </div> 
+            </div>`))
+          });
+        });
+        break;
+
+      case 'wood':
+        colProduct.where('category', '==', 'Madera').onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(`
+            <div class="card"> 
+              <div class="imgBx"> 
+                <img src="${doc.data().photoURL}">
+              </div> 
+              <div class="content"> 
+                <div class="productName"> 
+                  <h3> ${doc.data().name} </h3> 
+                </div> 
+                <div class="category-rating"> 
+                  <h2> ${doc.data().category} </h2> 
+                  <div class="rating">' 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                  </div> 
+                </div> 
+              </div> 
+            </div>`))
+          });
+        });
+        break;
+
+      case 'reusable':
+        colProduct.where('category', '==', 'Reutilizable').onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(`
+            <div class="card"> 
+              <div class="imgBx"> 
+                <img src="${doc.data().photoURL}">
+              </div> 
+              <div class="content"> 
+                <div class="productName"> 
+                  <h3> ${doc.data().name} </h3> 
+                </div> 
+                <div class="category-rating"> 
+                  <h2> ${doc.data().category} </h2> 
+                  <div class="rating">' 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                  </div> 
+                </div> 
+              </div> 
+            </div>`))
+          });
+        });
+        break;
+
+      case 'biodegradable':
+        colProduct.where('category', '==', 'Biodegradable').onSnapshot((querySnapshot) => {
+          $$('.container-card').html('');
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+
+            $$('.container-card').append($$(`
+            <div class="card"> 
+              <div class="imgBx"> 
+                <img src="${doc.data().photoURL}">
+              </div> 
+              <div class="content"> 
+                <div class="productName"> 
+                  <h3> ${doc.data().name} </h3> 
+                </div> 
+                <div class="category-rating"> 
+                  <h2> ${doc.data().category} </h2> 
+                  <div class="rating">' 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                    <i class="fa fa-star"></i> 
+                  </div> 
+                </div> 
+              </div> 
+            </div>`))
+          });
+        });
+        break;
+    }
+  })
+
+  $$('body').on('click', '.card img', function () {
+    colProduct.where("photoURL", "==", this.src)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          docProduct = doc.id;
+          mainView.router.navigate('/product/');
+        });
+      })
+      .catch((error) => {
+        // "Error getting documents"
+      });
+  })
 })
 
 var userChatID;
@@ -780,8 +1003,7 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           if (doc.data().userID == user.uid) {
-            $$('#chat-product').attr('disabled', 'true');
-            $$('#chat-product').css('background', '#7a6e32');
+            $$('#chat-product').css('display', 'none');
             $$('#delete-product').css('display', 'inline-block');
           }
 
