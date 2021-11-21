@@ -839,6 +839,8 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
       })
 
       $$('#delete-product').on('click', function () {
+        var chatExists = false;
+
         colChat.where('pURL', '==', doc.data().photoURL).get().then((querySnapshot) => {
           querySnapshot.forEach((document) => {
             firebase.database().ref('chat' + '-' + doc.data().chatID).set({
@@ -853,6 +855,7 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
                   // File deleted successfully
                   colChat.doc(doc.data().chatID).delete().then(() => {
                     colProduct.doc(docProduct).delete().then(() => {
+                      chatExists = true;
                       mainView.router.navigate('/pagPrin/');
                     }).catch((error) => {
                       //  "Error removing document:"
@@ -866,7 +869,9 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
               }
             });
           })
-        }).catch((error) => {
+        })
+
+        if (!chatExists) {
           storageRef.child('images/Products/' + doc.data().photoName).delete().then(function () {
             // File deleted successfully
             colProduct.doc(docProduct).delete().then(() => {
@@ -877,7 +882,7 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
           }).catch(function (error) {
             // Uh-oh, an error occurred!
           });
-        });
+        }
       })
     } else {
       // doc.data() will be undefined in this case
