@@ -633,6 +633,7 @@ figure {
   justify-content: center;
   align-items: flex-start;
   padding-top: 1rem;
+  min-height: 100vh;
 }
 
 .rTitle {
@@ -907,7 +908,7 @@ label {
 
 /* Perfil del usuario */
 .container-body-profile {
-  min-height: 60vh;
+  min-height: 100vh;
 }
 
 .container-profile {
