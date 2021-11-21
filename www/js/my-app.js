@@ -62,6 +62,7 @@ var db = firebase.firestore(),
   storageRef = firebase.storage().ref();
 
 var photoURL,
+  photoName,
   productPhotoRef,
   productPhotoRefPrev;
 
@@ -398,8 +399,9 @@ function defaultBtnActive() {
   defaultBtn.click();
   defaultBtn.on('change', function () {
     if (productNew === false) {
+      var imgUID = randomUID();
+      productPhotoRef = storageRef.child('images/Products/' + imgUID);
       var file = this.files[0];
-      productPhotoRef = storageRef.child('images/Products/' + randomUID());
 
       if (fieldsProduct.Img === true && productPrev === false) {
         productPhotoRefPrev.delete().then(function () {
@@ -417,11 +419,7 @@ function defaultBtnActive() {
       var totalBytes,
         progressArea = $$('.progress-area');
 
-      var metadata = {
-        name: firebase.auth().currentUser.Name
-      };
-
-      var uploadTask = productPhotoRef.put(file, metadata);
+      var uploadTask = productPhotoRef.put(file);
 
       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         function (snapshot) {
@@ -467,6 +465,7 @@ function defaultBtnActive() {
         }, function () {
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             photoURL = downloadURL;
+            photoName = imgUID;
 
             if (file) {
               var reader = new FileReader();
@@ -596,13 +595,14 @@ function randomUID() {
 }
 
 //Función para publicar un producto
-function publishProduct(photoURL) {
+function publishProduct(photoURL, photoName) {
   if (fieldsProduct.Name === true && fieldsProduct.Img === true && fieldsProduct.Category === true) {
     var name = $$('#nName').val();
     var category = $$('.selected').html();
     var description = $$('#nDescription').val();
 
     userID = firebase.auth().currentUser.uid;
+    productID = randomUID();
 
     data = {
       rol: "Product",
@@ -610,10 +610,12 @@ function publishProduct(photoURL) {
       category: category,
       description: description,
       userID: userID,
-      photoURL: photoURL
+      photoURL: photoURL,
+      photoName: photoName,
+      productID: productID
     }
 
-    colProduct.doc(randomUID()).set(data)
+    colProduct.doc(productID).set(data)
       .then(() => {
         // "Document successfully written!"
         mainView.router.navigate('/pagPrin/');
@@ -697,8 +699,8 @@ $$(document).on('page:init', function (e) {
       $$('#myAcc').css('display', 'none');
       $$('#donar').css('display', 'none');
 
-      $$('.btn-product').attr('disabled', 'true');
-      $$('.btn-product').css('background', '#7a6e32');
+      $$('#chat-product').attr('disabled', 'true');
+      $$('#chat-product').css('background', '#7a6e32');
 
       $$('.hamburger.button.no-ripple').on('click', function () {
         $$('.hamburger.button.no-ripple').toggleClass('is-active');
@@ -728,83 +730,34 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
       });
   })
 
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      if (isLogged) {
-        colProduct.onSnapshot((querySnapshot) => {
-          $$('.container-card').html('');
-          querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
+  colProduct.onSnapshot((querySnapshot) => {
+    $$('.container-card').html('');
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
 
-            $$('.container-card').append($$(`
-            <div class="card"> 
-              <div class="imgBx"> 
-                <img src="${doc.data().photoURL}">
-              </div> 
-              <div class="content"> 
-                <div class="productName"> 
-                  <h3> ${doc.data().name} </h3> 
-                </div> 
-                <div class="category-rating"> 
-                  <h2> ${doc.data().category} </h2> 
-                  <div class="rating">' 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                  </div> 
-                </div> 
-              </div> 
-            </div>`))
-          });
-        });
-
-        isLogged = !isLogged;
-
-        if (logged) {
-          logged = !logged;
-        }
-      }
-    } else {
-      if (!logged) {
-        colProduct.onSnapshot((querySnapshot) => {
-          $$('.container-card').html('');
-          querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-
-            $$('.container-card').append($$(`
-              <div class="card"> 
-                <div class="imgBx"> 
-                  <img src="${doc.data().photoURL}">
-                </div> 
-                <div class="content"> 
-                  <div class="productName"> 
-                    <h3> ${doc.data().name} </h3> 
-                  </div> 
-                  <div class="category-rating"> 
-                    <h2> ${doc.data().category} </h2> 
-                    <div class="rating">' 
-                      <i class="fa fa-star"></i> 
-                      <i class="fa fa-star"></i> 
-                      <i class="fa fa-star"></i> 
-                      <i class="fa fa-star"></i> 
-                      <i class="fa fa-star"></i> 
-                    </div> 
-                  </div> 
-                </div> 
-              </div>`))
-          });
-        });
-
-        logged = !logged;
-
-        if (!isLogged) {
-          isLogged = !isLogged;
-        }
-      }
-    }
-  })
+      $$('.container-card').append($$(`
+      <div class="card"> 
+        <div class="imgBx"> 
+          <img src="${doc.data().photoURL}">
+        </div> 
+        <div class="content"> 
+          <div class="productName"> 
+            <h3> ${doc.data().name} </h3> 
+          </div> 
+          <div class="category-rating"> 
+            <h2> ${doc.data().category} </h2> 
+            <div class="rating">' 
+              <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> 
+            </div> 
+          </div> 
+        </div> 
+      </div>`))
+    });
+  });
 })
 
 var userChatID;
@@ -815,30 +768,35 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
 
   colProduct.doc(docProduct).onSnapshot((doc) => {
     if (doc.exists) {
+      $$('.product-title').html(doc.data().name);
+      $$('.img-showcase img').attr('src', doc.data().photoURL);
+      $$('#pCategory').html(doc.data().category);
+      $$('.product-detail p').html(doc.data().description);
+
+      colUser.doc(doc.data().userID).onSnapshot((doc) => {
+        $$('.name-donor span').html(doc.data().name + ' ' + doc.data().surname);
+      })
 
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          colProduct.where('userID', '==', user.uid).get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              $$('.btn-product').attr('disabled', 'true');
-              $$('.btn-product').css('background', '#7a6e32');
-            })
-          })
+          if (doc.data().userID == user.uid) {
+            $$('#chat-product').attr('disabled', 'true');
+            $$('#chat-product').css('background', '#7a6e32');
+            $$('#delete-product').css('display', 'inline-block');
+          }
 
           colChat.where('pURL', '==', doc.data().photoURL).get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-              colChat.where('sender', '==', user.uid).get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                  $$('.btn-product').attr('disabled', 'true');
-                  $$('.btn-product').css('background', '#7a6e32');
-                })
-              })
+              if (doc.data().sender == user.uid) {
+                $$('#chat-product').attr('disabled', 'true');
+                $$('#chat-product').css('background', '#7a6e32');
+              }
             })
           })
         }
       })
 
-      $$('.btn-product').on('click', function () {
+      $$('#chat-product').on('click', function () {
         colProduct.where('photoURL', '==', doc.data().photoURL)
           .get()
           .then((querySnapshot) => {
@@ -861,6 +819,17 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
                   // "Error writing document"
                 });
 
+              colProduct.doc(doc.data().productID).update({
+                chatID: chatID
+              })
+                .then(() => {
+                  console.log("Document successfully updated!");
+                })
+                .catch((error) => {
+                  // The document probably doesn't exist.
+                  console.error("Error updating document: ", error);
+                });
+
               mainView.router.navigate('/chat/');
             });
           })
@@ -869,13 +838,46 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
           });
       })
 
-      $$('.product-title').html(doc.data().name);
-      $$('.img-showcase img').attr('src', doc.data().photoURL);
-      $$('#pCategory').html(doc.data().category);
-      $$('.product-detail p').html(doc.data().description);
-
-      colUser.doc(doc.data().userID).onSnapshot((doc) => {
-        $$('.name-donor span').html(doc.data().name + ' ' + doc.data().surname);
+      $$('#delete-product').on('click', function () {
+        colChat.where('pURL', '==', doc.data().photoURL).get().then((querySnapshot) => {
+          querySnapshot.forEach((document) => {
+            firebase.database().ref('chat' + '-' + doc.data().chatID).set({
+              message: null,
+              name: null
+            }, (error) => {
+              if (error) {
+                // The write failed...
+              } else {
+                // Data saved successfully!
+                storageRef.child('images/Products/' + doc.data().photoName).delete().then(function () {
+                  // File deleted successfully
+                  colChat.doc(doc.data().chatID).delete().then(() => {
+                    colProduct.doc(docProduct).delete().then(() => {
+                      mainView.router.navigate('/pagPrin/');
+                    }).catch((error) => {
+                      //  "Error removing document:"
+                    });
+                  }).catch((error) => {
+                    // "Error removing document:"
+                  })
+                }).catch(function (error) {
+                  // Uh-oh, an error occurred!
+                });
+              }
+            });
+          })
+        }).catch((error) => {
+          storageRef.child('images/Products/' + doc.data().photoName).delete().then(function () {
+            // File deleted successfully
+            colProduct.doc(docProduct).delete().then(() => {
+              mainView.router.navigate('/pagPrin/');
+            }).catch((error) => {
+              //  "Error removing document:"
+            });
+          }).catch(function (error) {
+            // Uh-oh, an error occurred!
+          });
+        });
       })
     } else {
       // doc.data() will be undefined in this case
@@ -968,7 +970,7 @@ $$(document).on('page:init', '.page[data-name="new_product"]', function (e) {
 
   $$('#new_pButton').on('click', function (e) {
     e.preventDefault();
-    publishProduct(photoURL);
+    publishProduct(photoURL, photoName);
   });
 })
 
@@ -1029,12 +1031,11 @@ $$(document).on('page:init', '.page[data-name="chat"]', function (e) {
 $$(document).on('page:init', '.page[data-name="ownerChats"]', function (e) {
   var user = firebase.auth().currentUser;
 
-  colChat.where("receiver", "==", user.uid)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        $$('.container-owner-chats').append(`
+  colChat.where("receiver", "==", user.uid).onSnapshot((querySnapshot) => {
+    $$('.container-owner-chats').html('');
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      $$('.container-owner-chats').append(`
           <div class="cards-owner-chats">
               <figure>
                   <img src="${doc.data().pURL}">
@@ -1045,11 +1046,9 @@ $$(document).on('page:init', '.page[data-name="ownerChats"]', function (e) {
                   <a href="#" name="${doc.data().chatID}">Entrar al chat</a>
               </div>
           </div>`);
-      });
-    })
-    .catch((error) => {
-      // "Error getting document"
+
     });
+  })
 
   colChat.where("sender", "==", user.uid)
     .get()

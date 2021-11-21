@@ -298,7 +298,6 @@ input, textarea {
 
 .obtaining-info .btn-product {
   width: 200px;
-  border: 1.5px solid var(--primary);
   border-radius: 25px;
   text-align: center;
   padding: .45rem .8rem;
@@ -308,8 +307,19 @@ input, textarea {
   margin-right: .2rem;
   margin-bottom: 1rem;
   cursor: pointer;
+}
+
+#chat-product {
+  border: 1.5px solid var(--primary);
   color: var(--bProfile);
   background: #ffd513;
+}
+
+#delete-product {
+  border: 1.5px solid var(--light);
+  color: var(--light);
+  background: #f03636;
+  display: none;
 }
 
 .obtaining-info .btn-product:hover {
