@@ -350,6 +350,12 @@ function menuToggle() {
   toggleMenu.toggleClass('active');
 }
 
+//Función que abre el menu reponsive
+function hamburgerToggle() {
+  $$('.hamburger.button.no-ripple').toggleClass('is-active');
+  $$('.menu-mobile').toggleClass('is-active');
+}
+
 //Función para activiar y desactivar los botones en mi perfil
 function tabs(panelIndex) {
   if (panelIndex === 0) {
@@ -707,11 +713,6 @@ $$(document).on('page:init', function (e) {
 
       $$('#chat-product').attr('disabled', 'true');
       $$('#chat-product').css('background', '#7a6e32');
-
-      $$('.hamburger.button.no-ripple').on('click', function () {
-        $$('.hamburger.button.no-ripple').toggleClass('is-active');
-        $$('.menu-mobile').toggleClass('is-active');
-      })
     }
   });
 })
@@ -739,13 +740,6 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
           </div> 
           <div class="category-rating"> 
             <h2> ${doc.data().category} </h2> 
-            <div class="rating">' 
-              <i class="fa fa-star"></i> 
-              <i class="fa fa-star"></i> 
-              <i class="fa fa-star"></i> 
-              <i class="fa fa-star"></i> 
-              <i class="fa fa-star"></i> 
-            </div> 
           </div> 
         </div> 
       </div>`))
@@ -771,13 +765,6 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
                 </div> 
                 <div class="category-rating"> 
                   <h2> ${doc.data().category} </h2> 
-                  <div class="rating">' 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                  </div> 
                 </div> 
               </div> 
             </div>`))
@@ -802,13 +789,6 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
                 </div> 
                 <div class="category-rating"> 
                   <h2> ${doc.data().category} </h2> 
-                  <div class="rating">' 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                  </div> 
                 </div> 
               </div> 
             </div>`))
@@ -833,13 +813,6 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
                 </div> 
                 <div class="category-rating"> 
                   <h2> ${doc.data().category} </h2> 
-                  <div class="rating">' 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                  </div> 
                 </div> 
               </div> 
             </div>`))
@@ -864,13 +837,6 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
                 </div> 
                 <div class="category-rating"> 
                   <h2> ${doc.data().category} </h2> 
-                  <div class="rating">' 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                  </div> 
                 </div> 
               </div> 
             </div>`))
@@ -894,14 +860,7 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
                   <h3> ${doc.data().name} </h3> 
                 </div> 
                 <div class="category-rating"> 
-                  <h2> ${doc.data().category} </h2> 
-                  <div class="rating">' 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                  </div> 
+                  <h2> ${doc.data().category} </h2>  
                 </div> 
               </div> 
             </div>`))
@@ -926,13 +885,6 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
                 </div> 
                 <div class="category-rating"> 
                   <h2> ${doc.data().category} </h2> 
-                  <div class="rating">' 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                  </div> 
                 </div> 
               </div> 
             </div>`))
@@ -957,13 +909,6 @@ $$(document).on('page:init', '.page[data-name="pagPrin"]', function (e) {
                 </div> 
                 <div class="category-rating"> 
                   <h2> ${doc.data().category} </h2> 
-                  <div class="rating">' 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                    <i class="fa fa-star"></i> 
-                  </div> 
                 </div> 
               </div> 
             </div>`))

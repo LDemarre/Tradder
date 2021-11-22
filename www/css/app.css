@@ -286,15 +286,6 @@ input, textarea {
   color: #fff;
 }
 
-.product-rating {
-  color: #ffd513;
-}
-
-.product-rating span {
-  font-weight: 600;
-  color: var(--light);
-}
-
 .last-price span {
   color: #f64749;
 }
