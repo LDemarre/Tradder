@@ -640,7 +640,14 @@ function publishProduct(photoURL, photoName) {
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
-  console.log("Device is ready!");
+  // verifica que el localStorage sea null para mostrar el mensaje
+  if (!localStorage.getItem('ingreso')) {
+    $$('.page[data-name="index"]').css('display', 'block');
+    // estableces el localstorage en 1 para que no se vuelva a cumplir la condicion
+    localStorage.setItem('ingreso', 1);
+  } else {
+    mainView.router.navigate('/pagPrin/');
+  }
 });
 
 // Option 1. Using one 'page:init' handler for all pages
@@ -667,11 +674,10 @@ $$(document).on('page:init', function (e) {
       $$('#login').css('display', 'none');
       $$('#signUp').css('display', 'none');
       $$('.hamburger.button.no-ripple').css('display', 'none');
+
       $$('#myAcc').css('display', 'block');
       $$('#donar').css('display', 'block');
-
       $$('#signOut').on('click', signOut);
-      $$('#profile').on('click', menuToggle);
 
       var user = firebase.auth().currentUser;
       var docRefUser = colUser.doc(user.uid);
@@ -1045,11 +1051,11 @@ $$(document).on('page:init', '.page[data-name="product"]', function (e) {
                 chatID: chatID
               })
                 .then(() => {
-                  console.log("Document successfully updated!");
+                  // "Document successfully updated!"
                 })
                 .catch((error) => {
                   // The document probably doesn't exist.
-                  console.error("Error updating document: ", error);
+                  // "Error updating document:"
                 });
 
               mainView.router.navigate('/chat/');
@@ -1261,19 +1267,22 @@ $$(document).on('page:init', '.page[data-name="ownerChats"]', function (e) {
   colChat.where("receiver", "==", user.uid).onSnapshot((querySnapshot) => {
     $$('.container-owner-chats').html('');
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      $$('.container-owner-chats').append(`
-          <div class="cards-owner-chats">
-              <figure>
-                  <img src="${doc.data().pURL}">
-              </figure>
-              <div class="content-owner-chats">
-                  <h3>${doc.data().pName}</h3>
-                  <p> <b>Para:</b> Donar el producto</p>
-                  <a href="#" name="${doc.data().chatID}">Entrar al chat</a>
-              </div>
-          </div>`);
-
+      colUser.doc(doc.data().sender).get().then((docUser) => {
+        if (docUser.exists) {
+          $$('.container-owner-chats').append(`
+              <div class="cards-owner-chats">
+                  <figure>
+                      <img src="${doc.data().pURL}">
+                  </figure>
+                  <div class="content-owner-chats">
+                      <h3>${doc.data().pName}</h3>
+                      <p> <b>Para:</b> Donar el producto</p>
+                      <p> <b>A:</b> ${docUser.data().name + ' ' + docUser.data().surname}</p>
+                      <a href="#" name="${doc.data().chatID}">Entrar al chat</a>
+                  </div>
+              </div>`);
+        }
+      })
     });
   })
 
@@ -1281,18 +1290,22 @@ $$(document).on('page:init', '.page[data-name="ownerChats"]', function (e) {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        $$('.container-owner-chats').append(`
-          <div class="cards-owner-chats">
-              <figure>
-                  <img src="${doc.data().pURL}">
-              </figure>
-              <div class="content-owner-chats">
-                  <h3>${doc.data().pName}</h3>
-                  <p> <b>Para:</b> Recibir el producto</p>
-                  <a href="#" name="${doc.data().chatID}">Entrar al chat</a>
-              </div>
-          </div>`);
+        colUser.doc(doc.data().receiver).get().then((docUser) => {
+          if (docUser.exists) {
+            $$('.container-owner-chats').append(`
+                <div class="cards-owner-chats">
+                    <figure>
+                        <img src="${doc.data().pURL}">
+                    </figure>
+                    <div class="content-owner-chats">
+                        <h3>${doc.data().pName}</h3>
+                        <p> <b>Para:</b> Recibir el producto</p>
+                        <p> <b>De:</b> ${docUser.data().name + ' ' + docUser.data().surname}</p>
+                        <a href="#" name="${doc.data().chatID}">Entrar al chat</a>
+                    </div>
+                </div>`);
+          }
+        })
       });
     })
     .catch((error) => {

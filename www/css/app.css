@@ -23,6 +23,10 @@ input, textarea {
   font-family: var(--Roboto) !important;
 }
 
+.page[data-name="index"] {
+  display: none;
+}
+
 /* Inicio */
 #imgInit {
   margin: 0 auto;
@@ -835,7 +839,7 @@ label {
   background: var(--white);
   width: 12.5rem;
   border-radius: 15px;
-  transition: 0.5s;
+  transition: 0.4s;
   visibility: hidden;
   opacity: 0;
   z-index: 999;
@@ -1543,6 +1547,12 @@ footer {
 @media screen and (max-height: 899px) {
   #preNext {
     font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 780px) and (orientation: landscape) {
+  body {
+    display: none;
   }
 }
 
