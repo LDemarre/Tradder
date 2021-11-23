@@ -1541,12 +1541,6 @@ footer {
   }
 }
 
-@media screen and (max-width: 780px) and (orientation: landscape) {
-  body {
-    display: none;
-  }
-}
-
 /* poppins-regular - latin */
 @font-face {
   font-family: 'Poppins';
